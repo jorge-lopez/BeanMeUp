@@ -7,52 +7,45 @@
     <title>Bean Me Up</title>
     
     <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/sticky-footer.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-    <link rel="icon" type="image/ico" href="Imagenes/Icon.ico"/>
+    <link rel="../icon" type="../image/ico" href="Imagenes/Icon.ico"/>
     <script src="js/vendor/modernizr.js"></script>
     <style type="text/css">
-      body{ font-family: 'Lato', sans-serif;}	   
-	    h1,h4{font-family: 'Lato', sans-serif; color: white; }
-      div#login-box{ padding-top: 10%;}
+  
     </style>
   </head>
   <body>
     
-    <div class="row">
-      <div class="small-12 text-center columns">
-        <h1>Bienvenido</h1>
+    <div id="wrap">
+      <div class="row">
+        <div id="inventario" class="large-9 columns">
+          
+          <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
+            <li><a class="th" href="../img/bebidas/CafeDelDia.jpg"> <img src="../img/bebidas/CafeDelDia.jpg"> </a>
+            <li><a class="th" href="../img/bebidas/CafeMocha.jpg"> <img src="../img/bebidas/CafeMocha.jpg"> </a>
+            <li><a class="th" href="../img/bebidas/ChocolateCaliente.jpg"> <img src="../img/bebidas/ChocolateCaliente.jpg"> </a>
+            <li><a class="th" href="../img/bebidas/EspressoAmericano.png"> <img src="../img/bebidas/EspressoAmericano.png"> </a>
+            <li><a class="th" href="../img/bebidas/HazelnutHelado.jpg"> <img src="../img/bebidas/HazelnutHelado.jpg"> </a>
+            <li><a class="th" href="../img/bebidas/HazelnutMacchiato.jpg"> <img src="../img/bebidas/CafeDelDia.jpg"> </a></li> 
+          </ul>
+        </div>
+        <div id="venta" class="large-3 columns">
+        </div>
+        asdad
       </div>
+    </div>   
+    <div id='footer' >
+        <ul class="../inline-list text-center">
+          <li><a href="#">Cafe's</a></li>
+          <li><a href="#">Snacks</a></li>
+          <li><a href="#">Otros</a></li>
+          <li><a href="../index.html">Cerrar Sesion</a></li>
+        </ul>
     </div>
-    <div class="row">
-      <div class="small-12 text-center columns">
-        <h4>Por favor Introduzca sus datos</h4>
-      </div>
-    </div>
-    
+</div>
 
-
-    <div class="row">
-		<div id="login-box" class="large-6 medium-8 small-12 small-centered columns ">
-	      <div  class="panel">
-	        
-	        <form action = "login.php" method = "POST">
-    			  <div class="row">
-    			    <div class="small-12 columns">				      
-    			      <input type="email" placeholder="Usuario" name = "User"/>
-    			    </div>
-    			  </div>
-    			  <div class="row">
-    			    <div class="small-12 columns">				      
-    			      <input type="Password" placeholder="Contraña" name = "Pass"/>
-    			    </div>
-    			  </div>			      
-			      <input id="login" type="submit" class="medium small-12 radius button" value="Ingresar">
-	        </form>
-	        
-	      </div>
-		</div>
-    </div>
-    
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>

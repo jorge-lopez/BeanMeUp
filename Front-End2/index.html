@@ -8,13 +8,16 @@
     
     <link rel="stylesheet" href="css/foundation.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-    <link rel="icon" type="image/ico" href="Imagenes/Icon.ico"/>
+    <link rel="icon" type="image/ico" href="img/Icon.ico"/>
     <script src="js/vendor/modernizr.js"></script>
     <style type="text/css">
       body{ font-family: 'Lato', sans-serif;}
-	    body{ background: url("Imagenes/CoffeeWall.jpg") no-repeat center center fixed; }
+	    body{ background: url("img/CoffeeWall.jpg") no-repeat center center fixed; }
 	    h1,h4{font-family: 'Lato', sans-serif; color: white; }
-      div#login-box{ padding-top: 10%;}
+      div#login-box{ padding-top: 10%;  }
+  div#login-box-panel{
+      z-index: -1;
+  }
     </style>
   </head>
   <body>
@@ -33,8 +36,8 @@
 
 
     <div class="row">
-		<div id="login-box" class="large-6 medium-8 small-12 small-centered columns ">
-	      <div  class="panel">
+		<div id="login-box" class="large-5 medium-8 small-12 small-centered columns ">
+	      <div id="login-box-panel" class="panel radius ">
 	        
 	        <form action = "login.php" method = "POST">
     			  <div class="row">

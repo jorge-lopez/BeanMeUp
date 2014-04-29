@@ -1,0 +1,20 @@
+body{ 
+	font-family: 'Lato', sans-serif;
+}	   
+
+h1,h4{
+	font-family: 'Lato', sans-serif; 
+	color: white; 
+}
+
+div#inventario{
+	background-color: #f9f9f9;
+}
+div#footer{ 
+	background-color: black;
+}
+
+.inline-list{
+     display: table;
+     margin: 0 auto;
+}
