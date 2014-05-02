@@ -1,4 +1,5 @@
 <?php
+
 $username = $_POST['User'];
 $password = $_POST['Pass'];
 $connection = mysql_connect("mysql.fhero.net", "u304295155_hdcde", "hardcode123", "u304295155_bnmup") or die('Could not connect to mysql server.');
@@ -19,6 +20,7 @@ if( empty($_POST['User']) && empty($_POST['Pass']) ) {
 else if ($username == $dbEmail && $password == $dbPassword) {
 	//$encryptedPassword = md5($dbPassword);
 	session_start();
+	$_SESSION["Login"] = "YES";
 	$_SESSION["Name"] = $dbFirstName;
 	header('Location: MainPage/main.html' );
 }
