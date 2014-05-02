@@ -1,11 +1,12 @@
+<?php
+  session_start();
+?>
 
-<!doctype html>
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
     <title>Bean Me Up</title>
-    
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/sticky-footer.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -17,11 +18,10 @@
     </style>
   </head>
   <body>
-    
+    <h2>Welcome, <?php echo $_SESSION["Name"]; ?></h2>
     <div id="wrap">
       <div class="row">
         <div id="inventario" class="large-9 columns">
-          
           <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
             <li><a class="th" href="../img/bebidas/CafeDelDia.jpg"> <img src="../img/bebidas/CafeDelDia.jpg"> </a>
             <li><a class="th" href="../img/bebidas/CafeMocha.jpg"> <img src="../img/bebidas/CafeMocha.jpg"> </a>
@@ -53,3 +53,4 @@
     </script>
   </body>
 </html>
+
