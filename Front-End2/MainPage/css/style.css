@@ -10,7 +10,15 @@ h1,h4{
 div#inventario{
 	background-color: #f9f9f9;
 }
-div#footer{ 
+div#venta{
+	border-left: 15px solid #ccc;
+}
+	div#total{
+		font-size: 1.5rem;
+		padding-left: 1rem;
+		color: green
+	}
+div.footer{ 
 	background-color: black;
 }
 

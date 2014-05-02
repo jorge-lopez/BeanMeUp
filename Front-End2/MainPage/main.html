@@ -12,37 +12,65 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
     <title>Bean Me Up</title>
+    
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/sticky-footer.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-    <link rel="../icon" type="../image/ico" href="Imagenes/Icon.ico"/>
+
+    <link rel="icon" type="image/ico" href="../img/Icon.ico"/>
     <script src="js/vendor/modernizr.js"></script>
-    <style type="text/css">
-  
-    </style>
+    
   </head>
   <body>
-    <h2>Welcome, <?php echo $_SESSION["Name"]; ?></h2>
-    <div id="wrap">
+    
+    <div class="wrap">
+      Usuario: <?php echo $_SESSION["Name"]; ?>
       <div class="row">
         <div id="inventario" class="large-9 columns">
+          
           <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
-            <li><a class="th" href="../img/bebidas/CafeDelDia.jpg"> <img src="../img/bebidas/CafeDelDia.jpg"> </a>
-            <li><a class="th" href="../img/bebidas/CafeMocha.jpg"> <img src="../img/bebidas/CafeMocha.jpg"> </a>
-            <li><a class="th" href="../img/bebidas/ChocolateCaliente.jpg"> <img src="../img/bebidas/ChocolateCaliente.jpg"> </a>
-            <li><a class="th" href="../img/bebidas/EspressoAmericano.png"> <img src="../img/bebidas/EspressoAmericano.png"> </a>
-            <li><a class="th" href="../img/bebidas/HazelnutHelado.jpg"> <img src="../img/bebidas/HazelnutHelado.jpg"> </a>
-            <li><a class="th" href="../img/bebidas/HazelnutMacchiato.jpg"> <img src="../img/bebidas/CafeDelDia.jpg"> </a></li> 
+            <li><a class="th product" onclick="AgregarProducto(this)">
+                  <img src="../img/bebidas/CafeDelDia.jpg">
+                  <label>Cafe del Dia</label>
+                  <input type="hidden" value="20" class="precio" />                  
+                </a>
+            <li><a class="th product" onclick="AgregarProducto(this)">
+                  <img src="../img/bebidas/CafeMocha.jpg">
+                  <label>Cafe Mocha</label>
+                  <input type="hidden" value="20" class="precio" />                  
+                </a>
+            <li><a class="th product" onclick="AgregarProducto(this)">
+                  <img src="../img/bebidas/ChocolateCaliente.jpg">
+                  <label>Chocolate Caliente</label>
+                  <input type="hidden" value="15" class="precio" />                  
+                </a>
+            <li><a class="th product" onclick="AgregarProducto(this)">
+                  <img src="../img/bebidas/EspressoAmericano.png">
+                  <label>Espresso Americano</label>
+                  <input type="hidden" value="15" class="precio" />                  
+                </a>
+            <li><a class="th product" onclick="AgregarProducto(this)">
+                  <img src="../img/bebidas/HazelnutHelado.jpg">
+                  <label>Hazelnut Helado</label>
+                  <input type="hidden" value="40" class="precio" />                  
+                </a>
+            <li><a class="th product" onclick="AgregarProducto(this)">
+                  <img src="../img/bebidas/HazelnutMacchiato.jpg">
+                  <label>Hazelnut Macchiato</label>
+                  <input type="hidden" value="40" class="precio" />                  
+                </a></li> 
           </ul>
         </div>
         <div id="venta" class="large-3 columns">
+          <div id="total" class=""></div>
+          
         </div>
-        asdad
+        
       </div>
     </div>   
-    <div id='footer' >
-        <ul class="../inline-list text-center">
+    <div class='footer' >
+        <ul class="inline-list text-center">
           <li><a href="#">Cafe's</a></li>
           <li><a href="#">Snacks</a></li>
           <li><a href="#">Otros</a></li>
@@ -53,9 +81,10 @@
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/scripts.js"></script>
     <script>
       $(document).foundation();
     </script>
   </body>
 </html>
-
