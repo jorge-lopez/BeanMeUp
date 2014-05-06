@@ -15,6 +15,7 @@ if( empty($_POST['User']) && empty($_POST['Pass']) ) {
 	header('Location: index.html' );
 }
 else if ($username == $dbEmail && $password == $dbPassword) {
+
 	//$encryptedPassword = md5($dbPassword);
 	session_start();
 	$_SESSION["Login"] = "YES";

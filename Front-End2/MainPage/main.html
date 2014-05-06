@@ -1,10 +1,18 @@
 <?php
+$connection = mysql_connect("mysql.fhero.net", "u304295155_hdcde", "hardcode123", "u304295155_bnmup") or die('Could not connect to mysql server.');
+mysql_select_db("u304295155_bnmup") or die("cannot connect to the database" . mysql_error());
   session_start();
   if(empty($_SESSION["Login"]))
 {
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/login.php');
     exit;
 }
+$GetAllDrinksSP ="call sp_Drink_List();";
+$GetAllDrinksQuery = mysql_query($GetAllDrinksSP);
+while($row = mysql_fetch_assoc($GetAllDrinksQuery)){
+     $Drinks[] = $row;
+}
+$Drinks_js = json_encode($Drinks);
 ?>
 
 <html class="no-js" lang="en">
@@ -20,7 +28,10 @@
 
     <link rel="icon" type="image/ico" href="../img/Icon.ico"/>
     <script src="js/vendor/modernizr.js"></script>
-    
+    <script type="text/javascript">
+    var drinks = <?php echo $Drinks_js ?>;
+    alert( drinks[3].DrinkName ); // JavaScript: The Definitive Guide
+</script>
   </head>
   <body>
     
@@ -31,8 +42,8 @@
           
           <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
             <li><a class="th product" onclick="AgregarProducto(this)">
-                  <img src="../img/bebidas/<?php echo $_SESSION['Name']; ?>.jpg">
-                  <label><?php echo $_SESSION["Name"]; ?></label>
+                  <img src="../img/bebidas/<?php echo $_SESSION['DrinkName']; ?>.jpg">
+                  <label><?php echo $_SESSION["DrinkName"]; ?></label>
                   <input type="hidden" value="<?php echo $_SESSION['Name']; ?>" class="precio chico" />                  
                 </a>
             <li><a class="th product" onclick="AgregarProducto(this)">
