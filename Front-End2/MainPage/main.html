@@ -31,9 +31,9 @@
           
           <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
             <li><a class="th product" onclick="AgregarProducto(this)">
-                  <img src="../img/bebidas/CafeDelDia.jpg">
-                  <label>Cafe del Dia</label>
-                  <input type="hidden" value="20" class="precio" />                  
+                  <img src="../img/bebidas/<?php echo $_SESSION['Name']; ?>.jpg">
+                  <label><?php echo $_SESSION["Name"]; ?></label>
+                  <input type="hidden" value="<?php echo $_SESSION['Name']; ?>" class="precio chico" />                  
                 </a>
             <li><a class="th product" onclick="AgregarProducto(this)">
                   <img src="../img/bebidas/CafeMocha.jpg">

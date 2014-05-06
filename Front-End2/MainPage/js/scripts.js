@@ -12,6 +12,7 @@ function AgregarProducto(padre) {
 	subtotal = subtotal + precio;
 	var iva = (subtotal * .16).toFixed(2);
 	var total = (subtotal * 1.16).toFixed(2);
+	
 	document.getElementById("total").innerHTML = "SubTotal: " + subtotal + " <br>" + 
 							"Iva: " + iva + " <br>" + 
 							"Total: " + total;
