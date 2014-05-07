@@ -17,3 +17,6 @@ function AgregarProducto(padre) {
 							"Iva: " + iva + " <br>" + 
 							"Total: " + total;
 }
+
+    $("a.product").colorbox(
+    	{href:"test.html"});

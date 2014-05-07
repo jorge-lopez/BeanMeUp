@@ -1,10 +1,18 @@
 <?php
+$connection = mysql_connect("mysql.fhero.net", "u304295155_hdcde", "hardcode123", "u304295155_bnmup") or die('Could not connect to mysql server.');
+mysql_select_db("u304295155_bnmup") or die("cannot connect to the database" . mysql_error());
   session_start();
   if(empty($_SESSION["Login"]))
 {
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/login.php');
     exit;
 }
+$GetAllDrinksSP ="call sp_Drink_List();";
+$GetAllDrinksQuery = mysql_query($GetAllDrinksSP);
+while($row = mysql_fetch_assoc($GetAllDrinksQuery)){
+     $Drinks[] = $row;
+}
+$Drinks_js = json_encode($Drinks);
 ?>
 
 <html class="no-js" lang="en">
@@ -16,12 +24,11 @@
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/sticky-footer.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/Vendor/colorbox.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
 
     <link rel="icon" type="image/ico" href="../img/Icon.ico"/>
     <script src="js/vendor/modernizr.js"></script>
-    
+
   </head>
   <body>
     
@@ -31,12 +38,12 @@
         <div id="inventario" class="large-9 columns">
           
           <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
-            <li><a id="1" class="th product" >
-                  <img src="../img/bebidas/CafeDelDia.jpg">
-                  <label>Cafe Del Dia</label>
+            <li><a class="th product" onclick="AgregarProducto(this)">
+                  <img id="cafe1foto">
+                  <label id="cafe1"></label>
                   <input type="hidden" value="<?php echo $_SESSION['Name']; ?>" class="precio chico" />                  
                 </a>
-            <li><a class="th product" >
+            <li><a class="th product" onclick="AgregarProducto(this)">
                   <img src="../img/bebidas/CafeMocha.jpg">
                   <label>Cafe Mocha</label>
                   <input type="hidden" value="20" class="precio" />                  
@@ -69,7 +76,15 @@
         </div>
         
       </div>
-    </div>   
+    </div>
+    <script type="text/javascript">
+    var drinks = <?php echo $Drinks_js ?>;
+    document.getElementById('cafe1').innerHTML = drinks[0].DrinkName;
+    var image= "../img/bebidas/" + drinks[0].DrinkPicture;
+    document.getElementById('cafe1foto').setAttribute('src',image)
+
+    //alert( drinks[3].DrinkName ); // JavaScript: The Definitive Guide
+</script>   
     <div class='footer' >
         <ul class="inline-list text-center">
           <li><a href="#">Cafe's</a></li>
@@ -81,13 +96,11 @@
 </div>
 
     <script src="js/vendor/jquery.js"></script>
-    <script src="js/vendor/jquery.colorbox-min.js"></script>
     <script src="js/foundation.min.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/scripts.js"></script>
     <script>
-      $(document).foundation(); 
+      $(document).foundation();
     </script>
-    
   </body>
 </html>
