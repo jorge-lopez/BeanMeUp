@@ -28,10 +28,7 @@ $Drinks_js = json_encode($Drinks);
 
     <link rel="icon" type="image/ico" href="../img/Icon.ico"/>
     <script src="js/vendor/modernizr.js"></script>
-    <script type="text/javascript">
-    var drinks = <?php echo $Drinks_js ?>;
-    alert( drinks[3].DrinkName ); // JavaScript: The Definitive Guide
-</script>
+
   </head>
   <body>
     
@@ -42,8 +39,8 @@ $Drinks_js = json_encode($Drinks);
           
           <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
             <li><a class="th product" onclick="AgregarProducto(this)">
-                  <img src="../img/bebidas/<?php echo $_SESSION['DrinkName']; ?>.jpg">
-                  <label><?php echo $_SESSION["DrinkName"]; ?></label>
+                  <img id="cafe1foto">
+                  <label id="cafe1"></label>
                   <input type="hidden" value="<?php echo $_SESSION['Name']; ?>" class="precio chico" />                  
                 </a>
             <li><a class="th product" onclick="AgregarProducto(this)">
@@ -79,7 +76,15 @@ $Drinks_js = json_encode($Drinks);
         </div>
         
       </div>
-    </div>   
+    </div>
+    <script type="text/javascript">
+    var drinks = <?php echo $Drinks_js ?>;
+    document.getElementById('cafe1').innerHTML = drinks[0].DrinkName;
+    var image= "../img/bebidas/" + drinks[0].DrinkPicture;
+    document.getElementById('cafe1foto').setAttribute('src',image)
+
+    //alert( drinks[3].DrinkName ); // JavaScript: The Definitive Guide
+</script>   
     <div class='footer' >
         <ul class="inline-list text-center">
           <li><a href="#">Cafe's</a></li>
