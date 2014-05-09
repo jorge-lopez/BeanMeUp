@@ -1,5 +1,7 @@
 
 var subtotal = 0;
+var idSeleccionado = "";
+$("a.product").colorbox({href:"test.html"});
 
 function AgregarProducto(padre) {
 
@@ -16,7 +18,39 @@ function AgregarProducto(padre) {
 	document.getElementById("total").innerHTML = "SubTotal: " + subtotal + " <br>" + 
 							"Iva: " + iva + " <br>" + 
 							"Total: " + total;
+							
+    //
 }
 
-    $("a.product").colorbox(
-    	{href:"test.html"});
+
+
+   function AgregarProductoHTML(drinks) {
+
+   		$(jQuery.parseJSON(drinks)).each(function() {  
+         var nombre = this.DrinkName;
+         var id = this.DrinkID;
+         var imagen = this.DrinkPicture;
+         
+
+         $("#lista-productos").append(
+   			'<li>'+
+   			'<a id="' + id + '" class="th product" onclick="AgregarProducto(this)">' +
+   			'<img src="../img/bebidas/' + imagen + '">' +
+   			'<label>' + nombre + '</label>' +
+   			'<input type="hidden" value="40" class="precio" />' +
+   			'</a></li> ');
+
+		});
+		
+		//DrinkID, DrinkName, DrinkPicture
+   }
+   function AgregarFoto() {
+   		
+   		
+   		$("#lista-productos").append(
+   			'<li><a class="th product" onclick="AgregarProducto(this)">' +
+   			'<img src="../img/bebidas/HazelnutMacchiato.jpg">' +
+   			'<label>Hazelnut Macchiato</label>' +
+   			'<input type="hidden" value="40" class="precio" />' +
+   			'</a></li> ');
+   }

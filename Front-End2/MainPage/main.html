@@ -1,11 +1,23 @@
 <?php
+
+  $connection = mysql_connect("mysql.fhero.net", "u304295155_hdcde", "hardcode123", "u304295155_bnmup")
+    or die('Could not connect to mysql server.');
+  mysql_select_db("u304295155_bnmup") 
+    or die("cannot connect to the database" . mysql_error());
   session_start();
-  if(empty($_SESSION["Login"]))
-{
+
+  if(empty($_SESSION["Login"])){
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/login.php');
     exit;
-}
+  }
+  $GetAllDrinksSP ="call sp_Drink_List();";
+  $GetAllDrinksQuery = mysql_query($GetAllDrinksSP);
+  while($row = mysql_fetch_assoc($GetAllDrinksQuery)){
+       $Drinks[] = $row;
+  }
+$Drinks_js = json_encode($Drinks);
 ?>
+
 
 <html class="no-js" lang="en">
   <head>
@@ -30,44 +42,14 @@
       <div class="row">
         <div id="inventario" class="large-9 columns">
           
-          <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
-            <li><a id="1" class="th product" >
-                  <img src="../img/bebidas/CafeDelDia.jpg">
-                  <label>Cafe Del Dia</label>
-                  <input type="hidden" value="<?php echo $_SESSION['Name']; ?>" class="precio chico" />                  
-                </a>
-            <li><a class="th product" >
-                  <img src="../img/bebidas/CafeMocha.jpg">
-                  <label>Cafe Mocha</label>
-                  <input type="hidden" value="20" class="precio" />                  
-                </a>
-            <li><a class="th product" onclick="AgregarProducto(this)">
-                  <img src="../img/bebidas/ChocolateCaliente.jpg">
-                  <label>Chocolate Caliente</label>
-                  <input type="hidden" value="15" class="precio" />                  
-                </a>
-            <li><a class="th product" onclick="AgregarProducto(this)">
-                  <img src="../img/bebidas/EspressoAmericano.png">
-                  <label>Espresso Americano</label>
-                  <input type="hidden" value="15" class="precio" />                  
-                </a>
-            <li><a class="th product" onclick="AgregarProducto(this)">
-                  <img src="../img/bebidas/HazelnutHelado.jpg">
-                  <label>Hazelnut Helado</label>
-                  <input type="hidden" value="40" class="precio" />                  
-                </a>
-            <li><a class="th product" onclick="AgregarProducto(this)">
-                  <img src="../img/bebidas/HazelnutMacchiato.jpg">
-                  <label>Hazelnut Macchiato</label>
-                  <input type="hidden" value="40" class="precio" />                  
-                </a></li> 
+          <ul id="lista-productos" class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
           </ul>
         </div>
+      
         <div id="venta" class="large-3 columns">
           <div id="total" class=""></div>
           
         </div>
-        
       </div>
     </div>   
     <div class='footer' >
@@ -75,19 +57,20 @@
           <li><a href="#">Cafe's</a></li>
           <li><a href="#">Snacks</a></li>
           <li><a href="#">Otros</a></li>
+          <li><a onclick="AgregarFoto()">Agregar Foto</a></li>
           <li><a href="../logout.php">Cerrar Sesion</a></li>
         </ul>
     </div>
-</div>
+
+
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/jquery.colorbox-min.js"></script>
-    <script src="js/foundation.min.js"></script>
-    <script src="js/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>    
     <script src="js/scripts.js"></script>
     <script>
       $(document).foundation(); 
+      $(document).ready(AgregarProductoHTML('<?php echo $Drinks_js ?>'));
     </script>
-    
   </body>
 </html>
