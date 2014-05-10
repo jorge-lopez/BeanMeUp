@@ -36,9 +36,8 @@ $Drinks_js = json_encode($Drinks);
     
   </head>
   <body>
-    
+    <br>
     <div class="wrap">
-      Usuario: <?php echo $_SESSION["Name"]; ?>
       <div class="row">
         <div id="inventario" class="large-9 columns">
           
@@ -57,7 +56,6 @@ $Drinks_js = json_encode($Drinks);
           <li><a href="#">Cafe's</a></li>
           <li><a href="#">Snacks</a></li>
           <li><a href="#">Otros</a></li>
-          <li><a onclick="AgregarFoto()">Agregar Foto</a></li>
           <li><a href="../logout.php">Cerrar Sesion</a></li>
         </ul>
     </div>
@@ -68,9 +66,14 @@ $Drinks_js = json_encode($Drinks);
     <script src="js/vendor/jquery.colorbox-min.js"></script>
     <script src="js/foundation.min.js"></script>    
     <script src="js/scripts.js"></script>
-    <script>
-      $(document).foundation(); 
+    <script type="text/javascript">
+    
+      
+
+      $(document).foundation();       
       $(document).ready(AgregarProductoHTML('<?php echo $Drinks_js ?>'));
-    </script>
+      $(document).ready($("a.product").colorbox({href:"test.html", onLoad: function() {
+        $('#cboxClose').remove();}}));
+      </script>
   </body>
 </html>

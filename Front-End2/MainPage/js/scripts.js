@@ -1,8 +1,6 @@
 
 var subtotal = 0;
 var idSeleccionado = "";
-$("a.product").colorbox({href:"test.html"});
-
 function AgregarProducto(padre) {
 
 
@@ -17,9 +15,7 @@ function AgregarProducto(padre) {
 	
 	document.getElementById("total").innerHTML = "SubTotal: " + subtotal + " <br>" + 
 							"Iva: " + iva + " <br>" + 
-							"Total: " + total;
-							
-    //
+							"Total: " + total;						
 }
 
 
@@ -30,27 +26,21 @@ function AgregarProducto(padre) {
          var nombre = this.DrinkName;
          var id = this.DrinkID;
          var imagen = this.DrinkPicture;
-         
+         var ch = this.DrinkPrice;
+         var ch = this.DrinkPrice;
+         var ch = this.DrinkPrice;
 
          $("#lista-productos").append(
    			'<li>'+
    			'<a id="' + id + '" class="th product" onclick="AgregarProducto(this)">' +
    			'<img src="../img/bebidas/' + imagen + '">' +
    			'<label>' + nombre + '</label>' +
-   			'<input type="hidden" value="40" class="precio" />' +
+   			'<input id="chico" type="hidden" value="40" class="precio" />' +
+            '<input id="mediano" type="hidden" value="40" class="precio" />' +
+            '<input id="grande" type="hidden" value="40" class="precio" />' +
    			'</a></li> ');
 
 		});
 		
 		//DrinkID, DrinkName, DrinkPicture
-   }
-   function AgregarFoto() {
-   		
-   		
-   		$("#lista-productos").append(
-   			'<li><a class="th product" onclick="AgregarProducto(this)">' +
-   			'<img src="../img/bebidas/HazelnutMacchiato.jpg">' +
-   			'<label>Hazelnut Macchiato</label>' +
-   			'<input type="hidden" value="40" class="precio" />' +
-   			'</a></li> ');
    }
