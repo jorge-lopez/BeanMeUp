@@ -1,5 +1,24 @@
+<?php
 
-<!doctype html>
+  $connection = mysql_connect("mysql.fhero.net", "u304295155_hdcde", "hardcode123", "u304295155_bnmup")
+    or die('Could not connect to mysql server.');
+  mysql_select_db("u304295155_bnmup") 
+    or die("cannot connect to the database" . mysql_error());
+  session_start();
+
+  if(empty($_SESSION["Login"])){
+    header('Location: http://' . $_SERVER['HTTP_HOST'] . '/Login/loginPage.html');
+    exit;
+  }
+  $GetAllDrinksSP ="call sp_Drink_List();";
+  $GetAllDrinksQuery = mysql_query($GetAllDrinksSP);
+  while($row = mysql_fetch_assoc($GetAllDrinksQuery)){
+       $Drinks[] = $row;
+  }
+$Drinks_js = json_encode($Drinks);
+?>
+
+
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
@@ -7,60 +26,54 @@
     <title>Bean Me Up</title>
     
     <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/sticky-footer.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/Vendor/colorbox.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+
     <link rel="icon" type="image/ico" href="img/Icon.ico"/>
     <script src="js/vendor/modernizr.js"></script>
-    <style type="text/css">
-      body{ font-family: 'Lato', sans-serif;}
-	    body{ background: url("img/CoffeeWall.jpg") no-repeat center center fixed; }
-	    h1,h4{font-family: 'Lato', sans-serif; color: white; }
-      div#login-box{ padding-top: 10%;  }
-  div#login-box-panel{
-      z-index: -1;
-  }
-    </style>
+    
   </head>
   <body>
-    
-    <div class="row">
-      <div class="small-12 text-center columns">
-        <h1>Bienvenido</h1>
+    <br>
+    <div class="wrap">
+      <div class="row">
+        <div id="inventario" class="large-9 columns">
+          
+          <ul id="lista-productos" class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
+          </ul>
+        </div>
+      
+        <div id="venta" class="large-3 columns">
+          <div id="total" class=""></div>
+          
+        </div>
       </div>
+    </div>   
+    <div class='footer' >
+        <ul class="inline-list text-center">
+          <li><a href="#">Cafe's</a></li>
+          <li><a href="#">Snacks</a></li>
+          <li><a href="#">Otros</a></li>
+          <li><a href="Login/logout.php">Cerrar Sesion</a></li>
+        </ul>
     </div>
-    <div class="row">
-      <div class="small-12 text-center columns">
-        <h4>Por favor Introduzca sus datos</h4>
-      </div>
-    </div>
-    
 
 
-    <div class="row">
-		<div id="login-box" class="large-5 medium-8 small-12 small-centered columns ">
-	      <div id="login-box-panel" class="panel radius ">
-	        
-	        <form action = "login.php" method = "POST">
-    			  <div class="row">
-    			    <div class="small-12 columns">				      
-    			      <input type="email" placeholder="Usuario" name = "User"/>
-    			    </div>
-    			  </div>
-    			  <div class="row">
-    			    <div class="small-12 columns">				      
-    			      <input type="Password" placeholder="Contraseña" name = "Pass"/>
-    			    </div>
-    			  </div>			      
-			      <input id="login" type="submit" class="medium small-12 radius button" value="Ingresar">
-	        </form>
-	        
-	      </div>
-		</div>
-    </div>
-    
+
     <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
-    <script>
-      $(document).foundation();
-    </script>
+    <script src="js/vendor/jquery.colorbox-min.js"></script>
+    <script src="js/foundation.min.js"></script>    
+    <script src="js/scripts.js"></script>
+    <script type="text/javascript">
+    
+      
+
+      $(document).foundation();       
+      $(document).ready(AgregarProductoHTML('<?php echo $Drinks_js ?>'));
+      $(document).ready($("a.product").colorbox({href:"test.html", onLoad: function() {
+        $('#cboxClose').remove();}}));
+      </script>
   </body>
 </html>

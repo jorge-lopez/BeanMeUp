@@ -1,0 +1,66 @@
+
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <title>Bean Me Up</title>
+    
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <link rel="icon" type="image/ico" href="img/Icon.ico"/>
+    <script src="js/vendor/modernizr.js"></script>
+    <style type="text/css">
+      body{ font-family: 'Lato', sans-serif;}
+	    body{ background: url("../img/CoffeeWall.jpg") no-repeat center center fixed; }
+	    h1,h4{font-family: 'Lato', sans-serif; color: white; }
+      div#login-box{ padding-top: 10%;  }
+  div#login-box-panel{
+      z-index: -1;
+  }
+    </style>
+  </head>
+  <body>
+    
+    <div class="row">
+      <div class="small-12 text-center columns">
+        <h1>Bienvenido</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 text-center columns">
+        <h4>Por favor Introduzca sus datos</h4>
+      </div>
+    </div>
+    
+
+
+    <div class="row">
+		<div id="login-box" class="large-5 medium-8 small-12 small-centered columns ">
+	      <div id="login-box-panel" class="panel radius ">
+	        
+	        <form action = "login.php" method = "POST">
+    			  <div class="row">
+    			    <div class="small-12 columns">				      
+    			      <input type="email" placeholder="Usuario" name = "User"/>
+    			    </div>
+    			  </div>
+    			  <div class="row">
+    			    <div class="small-12 columns">				      
+    			      <input type="Password" placeholder="Contraseña" name = "Pass"/>
+    			    </div>
+    			  </div>			      
+			      <input id="login" type="submit" class="medium small-12 radius button" value="Ingresar">
+	        </form>
+	        
+	      </div>
+		</div>
+    </div>
+    
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

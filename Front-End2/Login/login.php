@@ -14,10 +14,10 @@ while ($row = mysql_fetch_assoc($Result)) {
 if ($username == $dbEmail && $password == $dbPassword) {
 	$encryptedPassword = md5($dbPassword);
 	echo "Succesful Login\n";
-	header('Location: MainPage/main.html' );
+	header('Location: ../index.html' );
 }
 else {
-	header('Location: index.html' );
+	header('Location: Login/loginPage.html' );
 }
 
 mysql_close()

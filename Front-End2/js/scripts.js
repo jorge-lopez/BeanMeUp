@@ -1,11 +1,14 @@
 
 var subtotal = 0;
 var idSeleccionado = "";
-function AgregarProducto(padre) {
+var InfoBebidas;
 
+function AgregarProducto(Tamagno) {
 
-	var producto = $(padre).children("label").text();
-	var precio = parseInt($(padre).children("input").val());
+   parent.jQuery.colorbox.close();
+
+	var producto = InfoBebidas[1];
+	var precio = parseInt(InfoBebidas[Tamagno]);
 
 	$("#venta").append( producto + "  $" + precio + "<br>" );	
 
@@ -27,20 +30,25 @@ function AgregarProducto(padre) {
          var id = this.DrinkID;
          var imagen = this.DrinkPicture;
          var ch = this.DrinkPrice;
-         var ch = this.DrinkPrice;
-         var ch = this.DrinkPrice;
+         var md = this.DrinkPrice;
+         var gd = this.DrinkPrice;
 
          $("#lista-productos").append(
    			'<li>'+
-   			'<a id="' + id + '" class="th product" onclick="AgregarProducto(this)">' +
-   			'<img src="../img/bebidas/' + imagen + '">' +
+   			'<a class="th product" onclick="GuardarPrecios('+ id +','+ nombre +',' + ch + ','+ md ',' + gd')">' +
+   			'<img src="img/bebidas/' + imagen + '">' +
    			'<label>' + nombre + '</label>' +
-   			'<input id="chico" type="hidden" value="40" class="precio" />' +
-            '<input id="mediano" type="hidden" value="40" class="precio" />' +
-            '<input id="grande" type="hidden" value="40" class="precio" />' +
    			'</a></li> ');
 
 		});
 		
 		//DrinkID, DrinkName, DrinkPicture
+      //parent.jQuery.colorbox.close();
    }
+
+function GuardarPrecios(IdBebida, Nombre, Chico, Mediano, Grande)
+{
+   alert(IdBebida + ", " + Nombre + ", " + Chico + ", " + Mediano + ", " + Grande);
+   InfoBebidas = [IdBebida, Nombre, Chico, Mediano, Grande];   
+   alert(InfoBebidas);
+}
