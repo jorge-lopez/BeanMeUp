@@ -56,6 +56,7 @@ function GuardarPrecios(IdBebida, Nombre, Chico, Mediano, Grande)
 }
 
 
-function HelloWorld(){
-   alert("hola mundo");
+function PostingPosts(){
+   alert("ola");
+   $.post( "test.php", { 'choices[]': [ "Jon", "Susan" ] } );
 }
