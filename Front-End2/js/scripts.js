@@ -3,6 +3,7 @@ var subtotal = 0;
 var idSeleccionado = "";
 var InfoBebidas;
 
+
 function AgregarProducto(Tamagno) {
 
    parent.jQuery.colorbox.close();
@@ -23,7 +24,8 @@ function AgregarProducto(Tamagno) {
 
 
 
-   function AgregarProductoHTML(drinks) {
+
+function AgregarProductoHTML(drinks) {
 
    		$(jQuery.parseJSON(drinks)).each(function() {  
          var nombre = this.DrinkName;
@@ -35,7 +37,7 @@ function AgregarProducto(Tamagno) {
 
          $("#lista-productos").append(
    			'<li>'+
-   			'<a class="th product" onclick="GuardarPrecios('+ id +','+ nombre +',' + ch + ','+ md ',' + gd')">' +
+   			'<a class="th product" onclick="GuardarPrecios('+ id +','+ nombre +',' + ch + ','+ md + ',' + gd + ')">' +
    			'<img src="img/bebidas/' + imagen + '">' +
    			'<label>' + nombre + '</label>' +
    			'</a></li> ');
@@ -51,4 +53,9 @@ function GuardarPrecios(IdBebida, Nombre, Chico, Mediano, Grande)
    alert(IdBebida + ", " + Nombre + ", " + Chico + ", " + Mediano + ", " + Grande);
    InfoBebidas = [IdBebida, Nombre, Chico, Mediano, Grande];   
    alert(InfoBebidas);
+}
+
+
+function HelloWorld(){
+   alert("hola mundo");
 }
