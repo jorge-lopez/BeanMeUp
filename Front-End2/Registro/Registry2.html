@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="foundation-5.2.2/css/normalize.css">
+<link rel="stylesheet" href="foundation-5.2.2/css/foundation.css">
+<link rel="stylesheet" href="style.css"/>
+<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+<script src="jquery.maskedinput.js" type="text/javascript"></script>
+<script src="test.js"></script>
+
+<head>
+<title>Registro</title>
+</head>
+
+<body>
+
+<div id="registry-title">
+    "Registro"
+    <br>
+    <span> Por favor introduzca sus datos</span>
+</div>
+
+
+    
+    <form action="register.php" method="POST">
+
+    <div  id="registry-form">
+
+      <div class="large-6 columns">
+        <div class="row collapse">
+          <label>
+            First Name
+          </label>
+          <div class="small-2 columns">
+            <span class="prefix"><img src="images/person.png"></span>
+          </div>
+          <div class="small-10 columns">
+            <input id="FirstName" type="text"  placeholder="First name" name="FName">
+          </div>
+        </div>
+      </div>
+
+        <div class="large-6 columns">
+          <label>Last Name
+            <input type="text" placeholder="Last Name" name="LName"/>
+          </label>
+        </div>
+            
+      <div class="large-6 columns">
+        <div class="row collapse">
+          <label>
+            Phone
+          </label>
+          <div class="small-2 columns">
+            <span class="prefix"><img src="images/phone.png"></span>
+          </div>
+          <div class="small-10 columns">
+            <input  type="text" id="phone" placeholder="(###) ###-####" name="Telephone">
+          </div>
+        </div>
+      </div>
+
+      <div class="large-6 columns">
+        <div class="row collapse">
+          <label>
+            Email
+          </label>
+          <div class="small-2 columns">
+            <span class="prefix"><img  id="iconoMail" src="images/email.png"></span>
+          </div>
+          <div class="small-10 columns">
+            <input id="Email" type="text" placeholder="Example@host.com" name="Email">
+          </div>
+        </div>
+      </div>
+
+       <div class="large-12 columns">
+        <div class="row collapse">
+          <label>
+            Address
+          </label>
+          <div class="small-2 columns">
+            <span class="prefix"><img src="images/home.png"></span>
+          </div>
+          <div class="small-10 columns">
+            <input id="Address" type="text" placeholder="Street, Number, Zip Code" name="Address">
+          </div>
+        </div>
+      </div>
+
+        <div class="row">
+          <div class="large-6 columns">
+            <input type="radio" name="gender" value="Male" id="genderMale"><label for="genderMale">Male</label>
+            <input type="radio" name="gender" value="Female" id="genderFemale"><label for="genderFemale">Female</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-12 columns">
+            <input class="button" type="button" name="ButtonOk" value="OK" id="buttonOk"/>
+          </div>
+        </div>
+
+      </div>
+    </form>
+</body>
