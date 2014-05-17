@@ -17,13 +17,8 @@ div#main{
 
 }
 	div#registry-title{
+		font-size: 3.4rem;
 		text-align: center;
-		font-weight: 400;
-		font-size: 60px;
-		position:fixed;
-		left:50%;
-		margin-left: -200;
-
 	}
 		div#registry-title > span{
 			font-weight: 300;
@@ -62,15 +57,11 @@ div#main{
 			background-color: #4f9eca;
 			color: white;
 		}
-		div#registry-form{
-	    height: 50%;
-		width: 35%;
-		position: absolute;
-		left: 32%;
-		top: 20%;
-		border-radius: 5px;
+		form#container{
 		background-color: #ececea;
 		}
+
+
 		img#iconoMail{
 			padding-top: 10%;
 		}
