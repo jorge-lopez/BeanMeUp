@@ -12,7 +12,7 @@ while ($row = mysql_fetch_assoc($LoginQuery)) {
 	$dbFirstName = $row['FirstName'];
 }
 if( empty($_POST['User']) && empty($_POST['Pass']) ) {
-	header('Location: index.html' );
+	header('Location: Login/loginPage.html' );
 }
 else if ($username == $dbEmail && $password == $dbPassword) {
 
@@ -20,10 +20,10 @@ else if ($username == $dbEmail && $password == $dbPassword) {
 	session_start();
 	$_SESSION["Login"] = "YES";
 	$_SESSION["Name"] = $dbFirstName;
-	header('Location: MainPage/main.html' );
+	header('Location: ..Front-End2/index.html' );
 }
 else {
-	header('Location: index.html' );
+	header('Location: Login/loginPage.html' );
 }
 
 mysql_close()
