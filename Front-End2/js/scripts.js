@@ -1,18 +1,44 @@
 
 var subtotal = 0;
-var idSeleccionado = "";
 var InfoBebidas;
 var Vendiendo = [];
+var IdVenta = 0;
 
+function AgregarProductoHTML(drinks) {
 
-function AgregarProducto(Tamagno) {
+         $(jQuery.parseJSON(drinks)).each(function() {  
+         var nombre = this.ProductName;
+         var id = this.ProductID;
+         var imagen = this.ProductPicture;
+         var ch = this.ProductPrice;
+         var md = this.ProductPrice;
+         var gd = this.ProductPrice;
+
+         $("#lista-productos").append(
+            '<li>'+
+            '<a class="th product" onclick="GuardarPrecios('+ id +','+ nombre +',' + ch + ','+ md + ',' + gd + ')">' +
+            '<img src="img/bebidas/' + imagen + '">' +
+            '<label>' + nombre + '</label>' +
+            '</a></li> ');
+
+      });
+      //parent.jQuery.colorbox.close();
+   }
+
+function GuardarPrecios(IdBebida, Nombre, Chico, Mediano, Grande)
+{
+   InfoBebidas = [IdBebida, Nombre, Chico, Mediano, Grande];      
+}
+
+function AgregarProducto(TamagnoIndex, TamagnoString) {
 
    parent.jQuery.colorbox.close();
 
-	var producto = InfoBebidas[1];
-	var precio = parseInt(InfoBebidas[Tamagno]);
+	var producto = InfoBebidas[1] + " " + TamagnoString;
+	var precio = parseInt(InfoBebidas[TamagnoIndex]);
 
-	$("#venta").append( producto + "  $" + precio + "<br>" );	
+	$("#lista-total").append("<li><a class='small button secondary expand' ><span class='left'> " 
+                              + producto + "</span><span class='right'>$" + precio + " </span></a></li>" );	
 
 	subtotal = subtotal + precio;
 	var iva = (subtotal * .16).toFixed(2);
@@ -21,42 +47,45 @@ function AgregarProducto(Tamagno) {
 	document.getElementById("total").innerHTML = "SubTotal: " + subtotal + " <br>" + 
 							"Iva: " + iva + " <br>" + 
 							"Total: " + total;						
+
+// AddingProductsToTicket(IdProducto, Categoria, Nombre, Tamagno, Precio)
+   AddingProductsToTicket(InfoBebidas[0], 1, InfoBebidas[1], TamagnoIndex - 1, precio);
+   IdProducto++;
+
 }
 
 
+function AddingProductsToTicket(IdProducto, Categoria, Nombre, Tamagno, Precio){   
 
 
-function AgregarProductoHTML(drinks) {
+   var Producto = {
+      "IdProducto" : IdProducto, 
+      "Categoria" : Categoria,
+      "Nombre" : Nombre,
+      "Tamagno" : Tamagno,
+      "Precio" : Precio      
+   };
+   
+   
+   Vendiendo.push(Producto);    
 
-   		$(jQuery.parseJSON(drinks)).each(function() {  
-         var nombre = this.DrinkName;
-         var id = this.DrinkID;
-         var imagen = this.DrinkPicture;
-         var ch = this.DrinkPrice;
-         var md = this.DrinkPrice;
-         var gd = this.DrinkPrice;
 
-         $("#lista-productos").append(
-   			'<li>'+
-   			'<a class="th product" onclick="GuardarPrecios('+ id +','+ nombre +',' + ch + ','+ md + ',' + gd + ')">' +
-   			'<img src="img/bebidas/' + imagen + '">' +
-   			'<label>' + nombre + '</label>' +
-   			'</a></li> ');
-
-		});
-		
-		//DrinkID, DrinkName, DrinkPicture
-      //parent.jQuery.colorbox.close();
-   }
-
-function GuardarPrecios(IdBebida, Nombre, Chico, Mediano, Grande)
-{
-   alert(IdBebida + ", " + Nombre + ", " + Chico + ", " + Mediano + ", " + Grande);
-   InfoBebidas = [IdBebida, Nombre, Chico, Mediano, Grande];   
-   alert(InfoBebidas);
 }
+function EfectuarVenta(){
+      var mensaje = "";
+   $(Vendiendo).each(function() {  
+         var nombre = this.IdProducto;
+         var categoria = this.Categoria;
+         var id = this.Nombre;
+         var imagen = this.Tamagno;
+         var ch = this.Precio;
 
-
+      mensaje = mensaje + "| " + nombre + ", " + categoria + ", " + id + ", " + imagen + ", " + ch;
+   });
+   alert(mensaje);
+      //1-ch 2-md 3-gd
+   //1-bebidas 2-snacks
+}
 function PostingPosts(){
 
    $.post( "test.php", { 'choices': Vendiendo.toString() } )
@@ -65,30 +94,51 @@ function PostingPosts(){
       });
    //$.post( "test.php", );
 }
-function AddingProducts(IdBebida, Nombre, Tamagno, Precio){   
 
+function KeyArray(){
+var Id = 1;
+var tm = "ch";
+var mensaje = "";
 
-   var Producto = {
-      "IdBebida" : IdBebida, 
-      "Nombre" : Nombre,
-      "Tamagno" : Tamagno,
-      "Precio" : Precio      
+ var Producto = {
+      "IdProducto" : 1, 
+      "Categoria" : 1,
+      "Nombre" : "Cafe del Dia",
+      "Tamagno" : 1,
+      "Precio" : 20      
    };
-   
-   
-   Vendiendo.push(Producto); 
 
+    var map = new Object();  
+    map[Id + tm] = new Array();  
+    map[Id + tm].push(Producto);
+    map[Id + "md"] = new Array();
+    map[Id + "md"].push(Producto);
+    
+
+
+//var arreglo = Object.getOwnPropertyNames(map);
+
+for (var key in map) {
+   mensaje = mensaje + '||  name=' + key + ' value={';
+
+   var arreglo = map[key];
+
+   for (var i = 0; i < arreglo.length; i++)
+   {
+      var objeto = arreglo[i];
+      var arregloPropiedades = Object.getOwnPropertyNames(objeto);
       
-   var mensaje = "";
-   $(Vendiendo).each(function() {  
-         var nombre = this.IdBebida;
-         var id = this.Nombre;
-         var imagen = this.Tamagno;
-         var ch = this.Precio;
+      for (var j = 0; j < arregloPropiedades.length; j++)
+      {
+          mensaje = mensaje + '||  name=' + arregloPropiedades[j] + ' value=' + objeto[arregloPropiedades[j]];
+      }
+   }
+   
+   mensaje = mensaje + arreglo +  "}";
+   // do some more stuff with obj[key]
+}
 
-      mensaje = mensaje + "| " + nombre + ", " + id + ", " + imagen + ", " + ch;
-   });
-   alert(mensaje);
-   
-   
+
+alert(mensaje);
+// alert(Object.getOwnPropertyNames(map));
 }
