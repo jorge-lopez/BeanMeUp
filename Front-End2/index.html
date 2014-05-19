@@ -10,7 +10,7 @@
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/Login/loginPage.html');
     exit;
   }
-  $GetAllDrinksSP ="call sp_Drink_List();";
+  $GetAllDrinksSP ="call sp_Product_ByCategoryID('1');";
   $GetAllDrinksQuery = mysql_query($GetAllDrinksSP);
   while($row = mysql_fetch_assoc($GetAllDrinksQuery)){
        $Drinks[] = $row;

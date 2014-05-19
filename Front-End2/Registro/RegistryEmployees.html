@@ -19,7 +19,6 @@
   <div class="row collapse">
     <div class="small-8 columns small-centered">
     <form action="register.php" method="POST" id="container">
-
       <div class="large-6 columns">
         <div class="row collapse">
           <label>
@@ -37,6 +36,26 @@
         <div class="large-6 columns">
           <label>Last Name
             <input type="text" placeholder="Last Name" name="LName"/>
+          </label>
+        </div>
+
+         <div class="large-6 columns">
+        <div class="row collapse">
+          <label>
+            Password
+          </label>
+          <div class="small-2 columns">
+            <span class="prefix"><img src="images/lock.png"></span>
+          </div>
+          <div class="small-10 columns">
+            <input id="Password" type="password"  placeholder="Password" name="Password">
+          </div>
+        </div>
+      </div>
+
+        <div class="large-6 columns">
+          <label>Verify Password
+            <input type="password" placeholder="Password" name="VPassword"/>
           </label>
         </div>
             
@@ -81,17 +100,45 @@
           </div>
         </div>
       </div>
-
+             <div class="large-12 columns">
+        <div class="row collapse">
+          <label>
+            Salary
+          </label>
+          <div class="small-2 columns">
+            <span class="prefix"><img src="images/money.png"></span>
+          </div>
+          <div class="small-10 columns">
+            <input id="Salary" type="text" placeholder="Salary per week" name="Salary">
+          </div>
+        </div>
+      </div>
+          
+       <div class="large-12 columns">   
         <div class="row ">
-            <input class="small-2 columns"  type="radio" name="gender" value="Male" id="genderMale">
+        <label>
+            Gender
+          </label>
+            <input class="small-2 columns"  type="radio" name="Gender" value="Male" id="genderMale">
             <label class="small-3 columns" for="genderMale">Male</label>
-            <input class="small-2 columns" type="radio" name="gender" value="Female" id="genderFemale">
+            <input class="small-2 columns" type="radio" name="Gender" value="Female" id="genderFemale">
             <label class="small-3 columns" for="genderFemale">Female</label>
       </div>
-
+      </div>
+<div class="large-12 columns">   
+      <div class="row "> 
+          <label>
+            Hierarchy
+          </label>
+            <input class="small-2 columns"  type="radio" name="Registrar" value="Manager" id="managerButton">
+            <label class="small-3 columns" for="Manager">Manager</label>
+            <input class="small-2 columns" type="radio" name="Registrar" value="Cashier" id="cashierButton">
+            <label class="small-3 columns" for="Cashier">Cashier</label>
+      </div>
+</div>
         <div class="row collapse">
-            <input class=" button small-6 columns" type="button" name="ButtonEnter" value="Enter" id="buttonOk"/>          
-            <input class=" button [secondary alert alert] small-6 columns " type="button" name="ButtonCancel" value="Cancel" id="buttonOk"/>  
+            <input class=" button small-6 columns" type="submit" name="ButtonEnter" value="Enter" id="buttonOk"/>          
+            <input class=" button [secondary alert alert] small-6 columns " type="submit" name="ButtonCancel" value="Cancel" id="buttonOk"/>  
         </div>
 
     </form>
