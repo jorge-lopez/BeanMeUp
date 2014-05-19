@@ -2,6 +2,7 @@
 var subtotal = 0;
 var idSeleccionado = "";
 var InfoBebidas;
+var Vendiendo = [];
 
 
 function AgregarProducto(Tamagno) {
@@ -57,6 +58,37 @@ function GuardarPrecios(IdBebida, Nombre, Chico, Mediano, Grande)
 
 
 function PostingPosts(){
-   alert("ola");
-   $.post( "test.php", { 'choices[]': [ "Jon", "Susan" ] } );
+
+   $.post( "test.php", { 'choices': Vendiendo.toString() } )
+      .done(function( data ) {
+         alert( "Data Loaded: " + data );
+      });
+   //$.post( "test.php", );
+}
+function AddingProducts(IdBebida, Nombre, Tamagno, Precio){   
+
+
+   var Producto = {
+      "IdBebida" : IdBebida, 
+      "Nombre" : Nombre,
+      "Tamagno" : Tamagno,
+      "Precio" : Precio      
+   };
+   
+   
+   Vendiendo.push(Producto); 
+
+      
+   var mensaje = "";
+   $(Vendiendo).each(function() {  
+         var nombre = this.IdBebida;
+         var id = this.Nombre;
+         var imagen = this.Tamagno;
+         var ch = this.Precio;
+
+      mensaje = mensaje + "| " + nombre + ", " + id + ", " + imagen + ", " + ch;
+   });
+   alert(mensaje);
+   
+   
 }
