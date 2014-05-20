@@ -142,3 +142,10 @@ for (var key in map) {
 alert(mensaje);
 // alert(Object.getOwnPropertyNames(map));
 }
+
+function ObtenerPreciosTest(){
+   var IdProducto = 1;
+   $.ajax("test.html", {"IdProducto": IdProducto}).done(function(output) {
+      alert(output);
+   });
+}
