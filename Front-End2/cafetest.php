@@ -4,14 +4,15 @@
     or die('Could not connect to mysql server.');
   mysql_select_db("u304295155_bnmup") 
     or die("cannot connect to the database" . mysql_error());
-  session_start();
+ 
 
-  if(empty($_SESSION["Login"])){
-    header('Location: http://' . $_SERVER['HTTP_HOST'] . '/Login/loginPage.html');
-    exit;
-  }
-  $GetAllDrinksSP ="call sp_Product_ByCategoryID('1');";
-  $GetAllDrinksQuery = mysql_query($GetAllDrinksSP);
+  $IDProducto = $_POST['IdProducto'];
+echo ($IDProducto);  
+
+
+ 
+  $GetAllDrinksSP ="call sp_Product_Price_ByProductID('$IDProducto');";
+  $GetAllDrinksQuery = mysql_query($GetAllDrinksSP)or die(mysql_error());
   while($row = mysql_fetch_assoc($GetAllDrinksQuery)){
        $Drinks[] = $row;
   }
