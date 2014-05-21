@@ -1,4 +1,5 @@
 <?php
+include '../db_connect.php';
 $FirstName = $_POST['FName'];
 $LastName = $_POST['LName'];
 $Phone = $_POST['Telephone'];
@@ -23,9 +24,6 @@ if($Registrar == 'Cajero'){
 else if($Registrar == 'Administrador'){
 	$Registrar ='1';
 }
-
-$connection = mysql_connect("mysql.fhero.net", "u304295155_hdcde", "hardcode123", "u304295155_bnmup") or die('Could not connect to mysql server.');
-mysql_select_db("u304295155_bnmup") or die("cannot connect to the database" . mysql_error());
 $VerifyEmail ="CALL sp_EmailVerification('$Email');";
 $VerifyEmailQuery = mysql_query($VerifyEmail);
 $numResults = mysql_num_rows($VerifyEmailQuery);
