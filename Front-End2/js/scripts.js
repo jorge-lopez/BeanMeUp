@@ -145,7 +145,12 @@ alert(mensaje);
 
 function ObtenerPreciosTest(IdProducto){
    
-   $.ajax("cafetest.php", {"IdProducto": IdProducto}).done(function(output) {
-      alert(output);
+   $.ajax({
+      type: "POST",
+      url: "cafetest.php",
+      data: {IdProducto : IdProducto}, 
+      success: function(data) { 
+         alert("Id producto2 \n" + data);
+      }
    });
 }

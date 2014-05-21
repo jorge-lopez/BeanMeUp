@@ -5,9 +5,9 @@
   mysql_select_db("u304295155_bnmup") 
     or die("cannot connect to the database" . mysql_error());
  
-
+  
   $IDProducto = $_POST['IdProducto'];
-echo ($IDProducto);  
+
 
 
  
