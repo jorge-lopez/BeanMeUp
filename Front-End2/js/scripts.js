@@ -6,52 +6,60 @@ var IdVenta = 0;
 
 function AgregarProductoHTML(drinks) {
 
-         $(jQuery.parseJSON(drinks)).each(function() {  
-         var nombre = this.ProductName;
-         var id = this.ProductID;
-         var imagen = this.ProductPicture;
-         var ch = this.ProductPrice;
-         var md = this.ProductPrice;
-         var gd = this.ProductPrice;
+   $(jQuery.parseJSON(drinks)).each(function() {  
+      var nombre = this.ProductName;
+      var id = this.ProductID;
+      var imagen = this.ProductPicture;
 
-         $("#lista-productos").append(
-            '<li>'+
-            '<a class="th product" onclick="GuardarPrecios('+ id +','+ nombre +',' + ch + ','+ md + ',' + gd + ')">' +
-            '<img src="img/bebidas/' + imagen + '">' +
-            '<label>' + nombre + '</label>' +
-            '</a></li> ');
-
-      });
-      //parent.jQuery.colorbox.close();
-   }
-
-function GuardarPrecios(IdBebida, Nombre, Chico, Mediano, Grande)
-{
-   InfoBebidas = [IdBebida, Nombre, Chico, Mediano, Grande];      
+      $("#lista-productos").append(
+         '<li>'+
+         '<a class="th product" onclick="GuardarProducto('+ id +",'"+ nombre +'\')">' +
+         '<img src="img/bebidas/' + imagen + '">' +
+         '<label>' + nombre + '</label>' +
+         '</a></li> ');
+   });
+   
+   $("a.product").colorbox({
+      href:"tamagnos.html", onLoad: function() {
+         $('#cboxClose').remove();
+      }
+   });  
 }
 
-function AgregarProducto(TamagnoIndex, TamagnoString) {
+function GuardarProducto(IdBebida, Nombre)
+{
+   InfoBebidas = [IdBebida, Nombre];      
+}
+
+function AgregarProducto(IndexTamagno, StringTamagno) {
 
    parent.jQuery.colorbox.close();
+	var producto = InfoBebidas[1] + " " + StringTamagno;   
+   var precio;
+   var jqXHR = $.ajax({
+         type: "POST",
+         url: "ObtenerPrecio.php",
+         data: {IdProducto : InfoBebidas[0]}, 
+         success: function(data) { 
+            var tempArray = jQuery.parseJSON(data);
+            precio = parseInt(tempArray[IndexTamagno].Price);
+         }
+      });
+   jqXHR.done(function () {
+   	$("#lista-total").append("<li><a class='small button secondary expand' ><span class='left'> " 
+                                 + producto + "</span><span class='right'>$" + precio + " </span></a></li>" );	
 
-	var producto = InfoBebidas[1] + " " + TamagnoString;
-	var precio = parseInt(InfoBebidas[TamagnoIndex]);
+   	subtotal = subtotal + precio;
+   	var iva = (subtotal * .16).toFixed(2);
+   	var total = (subtotal * 1.16).toFixed(2);
 
-	$("#lista-total").append("<li><a class='small button secondary expand' ><span class='left'> " 
-                              + producto + "</span><span class='right'>$" + precio + " </span></a></li>" );	
+   	document.getElementById("total").innerHTML = "SubTotal: " + subtotal + " <br>" + 
+   							"Iva: " + iva + " <br>" + 
+   							"Total: " + total;						
 
-	subtotal = subtotal + precio;
-	var iva = (subtotal * .16).toFixed(2);
-	var total = (subtotal * 1.16).toFixed(2);
-	
-	document.getElementById("total").innerHTML = "SubTotal: " + subtotal + " <br>" + 
-							"Iva: " + iva + " <br>" + 
-							"Total: " + total;						
-
-// AddingProductsToTicket(IdProducto, Categoria, Nombre, Tamagno, Precio)
-   AddingProductsToTicket(InfoBebidas[0], 1, InfoBebidas[1], TamagnoIndex - 1, precio);
-   IdProducto++;
-
+   // AddingProductsToTicket(IdProducto, Categoria, Nombre, Tamagno, Precio)
+      AddingProductsToTicket(InfoBebidas[0], 1, InfoBebidas[1], IndexTamagno + 1, precio);
+   });
 }
 
 
@@ -143,14 +151,3 @@ alert(mensaje);
 // alert(Object.getOwnPropertyNames(map));
 }
 
-function ObtenerPreciosTest(IdProducto){
-   
-   $.ajax({
-      type: "POST",
-      url: "cafetest.php",
-      data: {IdProducto : IdProducto}, 
-      success: function(data) { 
-         alert("Id producto2 \n" + data);
-      }
-   });
-}

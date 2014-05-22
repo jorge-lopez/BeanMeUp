@@ -42,7 +42,8 @@ $Drinks_js = json_encode($Drinks);
       
         <div id="venta" class="large-3 columns">
           <div id="total" class=""></div>
-                    
+            <ul id="lista-total" class="no-bullet">       
+            </ul>
             <button id="login" type="submit" class="medium small-12 radius button" onclick="PostingPosts()" style="top 100rem">Efectuar
             </button>
           </div>
@@ -66,13 +67,8 @@ $Drinks_js = json_encode($Drinks);
     <script src="js/foundation.min.js"></script>    
     <script src="js/scripts.js"></script>
     <script type="text/javascript">
-    
-      
-
       $(document).foundation();       
-      $(document).ready(AgregarProductoHTML('<?php echo $Drinks_js ?>'));
-      $(document).ready($("a.product").colorbox({href:"tamagnos.html", onLoad: function() {
-        $('#cboxClose').remove();}}));
+      $(document).ready(AgregarProductoHTML('<?php echo $Drinks_js ?>'));      
       </script>
   </body>
 </html>
