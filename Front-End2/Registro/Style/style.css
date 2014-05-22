@@ -4,12 +4,12 @@ html,body{
 	height:100%; 
 	width:100%; 
 	font-family: 'Lato', sans-serif;
+	background-image: url('../images/coffee.jpg')  ;
 }
 
 div#main{
 	height: 100%;
 	width: 100%;
-	background: url("../images/CoffeeWall.jpg") no-repeat center center fixed; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -19,6 +19,9 @@ div#main{
 	div#registry-title{
 		font-size: 3.4rem;
 		text-align: center;
+		color: #ececea;
+		font-weight: bold;
+		text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	}
 		div#registry-title > span{
 			font-weight: 300;
@@ -59,11 +62,19 @@ div#main{
 		}
 		form#container{
 		background-color: #ececea;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		position: relative;
+		}
+		div#buttons{
+			position: absolute; 
+			bottom:0;
 		}
 
 
 		img#iconoMail{
-			padding-top: 10%;
+			padding-top: 5%;
 		}
 
 table,th,td{

@@ -35,9 +35,12 @@ if(!filter_var($Email, FILTER_VALIDATE_EMAIL)){
 	$message = "Invalid email address please type a valid email.";
 }
 else if($numResults >= 1){
-	$message = $Email." Email already exist.";
+	echo 0;
 	mysql_close($connection);
-	header("Location: registertestfail.php");
+}
+else if($numResults == 0){
+	echo 1;
+	mysql_close($connection);
 }
 else{
 	if($Password == $VPassword){
