@@ -1,0 +1,115 @@
+@import url(http://fonts.googleapis.com/css?family=Share+Tech|Oswald);
+
+@font-face
+{
+font-family: TrekFont;
+src: url(trek.ttf);
+}
+
+body{
+  background-color:#111;
+}
+
+#wrapper {
+  
+ width:90%;
+ text-align:center;
+ margin:40px;
+ z-index:1;
+}
+p#title{
+  
+  font-family: TrekFont;
+  font-size: 8rem;
+  line-height: 2rem;
+}
+p#subtitle{
+  font-family: TrekFont;
+  font-size: 3rem;
+}
+
+p {
+  font-size:25px;
+  color:#2D7BCD;
+  font-family:'Share Tech',sans-serif; 
+}
+
+button {
+  color:#111;
+  font-size:30px;
+  font-family:Oswald;
+  text-transform:uppercase;
+  background-color:#2D7BCD;
+  border:none;
+  -moz-transition: all .4s;
+  -webkit-transition: all .4s;
+  -o-transition: all .4s;
+  -ms-transition: all .4s;
+  transition: all .4s; 
+}
+
+button:hover {
+  background-color:#D7B043;
+}
+
+/*Star Background*/
+@keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-webkit-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-moz-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-ms-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+
+@keyframes move-clouds-back {
+    from {background-position:0 0;}
+    to {background-position:10000px 0;}
+}
+@-webkit-keyframes move-clouds-back {
+    from {background-position:0 0;}
+    to {background-position:10000px 0;}
+}
+@-moz-keyframes move-clouds-back {
+    from {background-position:0 0;}
+    to {background-position:10000px 0;}
+}
+@-ms-keyframes move-clouds-back {
+    from {background-position: 0;}
+    to {background-position:10000px 0;}
+}
+
+.stars, .twinkling {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  width:90%;
+  height:100%;
+  display:block;
+}
+
+.stars {
+  background:#111 url(http://dylanshearer.com.au/codepen/nextgen/stars.png) repeat top center;
+  z-index:-10;
+}
+
+.twinkling{
+  background:transparent url(http://dylanshearer.com.au/codepen/nextgen/twinkling.png) repeat top center;
+  z-index:-10;
+
+  -moz-animation:move-twink-back 200s linear infinite;
+  -ms-animation:move-twink-back 200s linear infinite;
+  -o-animation:move-twink-back 200s linear infinite;
+  -webkit-animation:move-twink-back 200s linear infinite;
+  animation:move-twink-back 200s linear infinite;
+}
