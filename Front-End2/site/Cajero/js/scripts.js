@@ -14,7 +14,7 @@ function AgregarProductoHTML(drinks) {
       $("#lista-productos").append(
          '<li>'+
          '<a class="th product" onclick="GuardarProducto('+ id +",'"+ nombre +'\')">' +
-         '<img src="img/bebidas/' + imagen + '">' +
+         '<img src="../../img/bebidas/' + imagen + '">' +
          '<label>' + nombre + '</label>' +
          '</a></li> ');
    });
@@ -38,7 +38,7 @@ function AgregarProducto(IndexTamagno, StringTamagno) {
    var precio;
    var jqXHR = $.ajax({
          type: "POST",
-         url: "ObtenerPrecio.php",
+         url: "php/ObtenerPrecio.php",
          data: {IdProducto : InfoBebidas[0]}, 
          success: function(data) { 
             var tempArray = jQuery.parseJSON(data);
