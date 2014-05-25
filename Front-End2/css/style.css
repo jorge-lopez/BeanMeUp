@@ -13,14 +13,21 @@ div#inventario{
 div#venta{
 	border-left: 15px solid #ccc;
 }
-	div#total{
-		font-size: 1.5rem;
+	div#contenedor-total{		
 		padding-left: 1rem;
 		color: green
 	}
-div.footer{ 
-	background-color: black;
-}
+		div#contenedor-total > p{
+			font-size: 1.5rem;
+			line-height: 1rem;
+		}
+	span.nombre{
+		padding-left: .5rem;
+	}
+	span.precio{
+		padding-right: .5rem;
+	}
+
 
 .inline-list{
      display: table;

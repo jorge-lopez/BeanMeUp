@@ -1,7 +1,7 @@
 
 var subtotal = 0;
 var InfoBebidas;
-var Vendiendo = [];
+var Vendiendo = new Object();
 var IdVenta = 0;
 
 function AgregarProductoHTML(drinks) {
@@ -13,7 +13,7 @@ function AgregarProductoHTML(drinks) {
 
       $("#lista-productos").append(
          '<li>'+
-         '<a class="th product" onclick="GuardarProducto('+ id +",'"+ nombre +'\')">' +
+         '<a class="th product" onclick="GuardarProductoEnMemoria('+ id +",'"+ nombre +'\')">' +
          '<img src="../../img/bebidas/' + imagen + '">' +
          '<label>' + nombre + '</label>' +
          '</a></li> ');
@@ -26,12 +26,12 @@ function AgregarProductoHTML(drinks) {
    });  
 }
 
-function GuardarProducto(IdBebida, Nombre)
+function GuardarProductoEnMemoria(IdBebida, Nombre)
 {
    InfoBebidas = [IdBebida, Nombre];      
 }
 
-function AgregarProducto(IndexTamagno, StringTamagno) {
+function ObtenerPrecio(IndexTamagno, StringTamagno) {
 
    parent.jQuery.colorbox.close();
 	var producto = InfoBebidas[1] + " " + StringTamagno;   
@@ -46,108 +46,72 @@ function AgregarProducto(IndexTamagno, StringTamagno) {
          }
       });
    jqXHR.done(function () {
-   	$("#lista-total").append("<li><a class='small button secondary expand' ><span class='left'> " 
-                                 + producto + "</span><span class='right'>$" + precio + " </span></a></li>" );	
 
-   	subtotal = subtotal + precio;
-   	var iva = (subtotal * .16).toFixed(2);
-   	var total = (subtotal * 1.16).toFixed(2);
-
-   	document.getElementById("total").innerHTML = "SubTotal: " + subtotal + " <br>" + 
-   							"Iva: " + iva + " <br>" + 
-   							"Total: " + total;						
-
-   // AddingProductsToTicket(IdProducto, Categoria, Nombre, Tamagno, Precio)
-      AddingProductsToTicket(InfoBebidas[0], 1, InfoBebidas[1], IndexTamagno + 1, precio);
+   // AddingProductsToTicket(IdProducto, Nombre, IdTamagno, StringTamagno, Precio)
+      AgnadirACarrito(InfoBebidas[0], InfoBebidas[1], IndexTamagno + 1, StringTamagno, precio);
    });
 }
 
 
-function AddingProductsToTicket(IdProducto, Categoria, Nombre, Tamagno, Precio){   
+function AgnadirACarrito(IdProducto, Nombre, IdSize, StringTamagno, Precio){   
 
+   if(isNaN(Vendiendo[IdProducto + '-' + IdSize]))
+      Vendiendo[IdProducto + '-' + IdSize] = 0;
+   Vendiendo[IdProducto + '-' + IdSize]++;
 
-   var Producto = {
-      "IdProducto" : IdProducto, 
-      "Categoria" : Categoria,
-      "Nombre" : Nombre,
-      "Tamagno" : Tamagno,
-      "Precio" : Precio      
-   };
-   
-   
-   Vendiendo.push(Producto);    
+   var cantidad = Vendiendo[IdProducto + '-' + IdSize];
+   var identificador = IdProducto + '-' + IdSize;
 
-
-}
-function EfectuarVenta(){
-      var mensaje = "";
-   $(Vendiendo).each(function() {  
-         var nombre = this.IdProducto;
-         var categoria = this.Categoria;
-         var id = this.Nombre;
-         var imagen = this.Tamagno;
-         var ch = this.Precio;
-
-      mensaje = mensaje + "| " + nombre + ", " + categoria + ", " + id + ", " + imagen + ", " + ch;
-   });
-   alert(mensaje);
-      //1-ch 2-md 3-gd
-   //1-bebidas 2-snacks
-}
-function PostingPosts(){
-
-   $.post( "test.php", { 'choices': Vendiendo.toString() } )
-      .done(function( data ) {
-         alert( "Data Loaded: " + data );
-      });
-   //$.post( "test.php", );
-}
-
-function KeyArray(){
-var Id = 1;
-var tm = "ch";
-var mensaje = "";
-
- var Producto = {
-      "IdProducto" : 1, 
-      "Categoria" : 1,
-      "Nombre" : "Cafe del Dia",
-      "Tamagno" : 1,
-      "Precio" : 20      
-   };
-
-    var map = new Object();  
-    map[Id + tm] = new Array();  
-    map[Id + tm].push(Producto);
-    map[Id + "md"] = new Array();
-    map[Id + "md"].push(Producto);
-    
-
-
-//var arreglo = Object.getOwnPropertyNames(map);
-
-for (var key in map) {
-   mensaje = mensaje + '||  name=' + key + ' value={';
-
-   var arreglo = map[key];
-
-   for (var i = 0; i < arreglo.length; i++)
-   {
-      var objeto = arreglo[i];
-      var arregloPropiedades = Object.getOwnPropertyNames(objeto);
-      
-      for (var j = 0; j < arregloPropiedades.length; j++)
-      {
-          mensaje = mensaje + '||  name=' + arregloPropiedades[j] + ' value=' + objeto[arregloPropiedades[j]];
-      }
+   if(cantidad == 1){
+         $("#lista-articulos").append("<li><a class='small button secondary expand'>" + 
+            "<span id='" + identificador + "' class='nombre left'>" + Nombre + " " + StringTamagno + "</span>" +
+            "<span id='" + identificador + "' class='cantidad text-center'>" + "</span>" +
+            "<span id='" + identificador + "' class='precio right'>$" + FormatearNumeros(Precio) + "</span></a></li>" ); 
+               
    }
+   else if(cantidad > 1){
+      $("span#" + identificador + ".cantidad").html("x" + cantidad);
+      $("span#" + identificador + ".precio").html("$" + (Precio * cantidad));
+   }  
    
-   mensaje = mensaje + arreglo +  "}";
-   // do some more stuff with obj[key]
+
+
+   subtotal = FormatearNumeros(subtotal + Precio);
+   var iva = FormatearNumeros(subtotal * .16);
+   var total = FormatearNumeros(subtotal * 1.16);
+
+   $("span#subtotal").html("$" + subtotal);
+   $("span#iva").html("$" + iva);
+   $("span#total").html("$" + total);
+}
+function FormatearNumeros(Numero){
+   return parseFloat(Math.round(Numero * 100) / 100).toFixed(2);
 }
 
+function EfectuarVenta(){      
+      
+   var mensaje = "";
+   var jsonStr = "";
+   var Ticket = [];
 
-alert(mensaje);
-// alert(Object.getOwnPropertyNames(map));
+   for (var key in Vendiendo) {
+      var RawInfo = key.split('-');
+      var Item = {};
+         Item["ProductId"] = RawInfo[0];
+         Item["SizeId"] = RawInfo[1];
+         Item["Cantidad"] = Vendiendo[key];
+         
+      Ticket.push(Item);
+   }
+
+   jsonStr = JSON.stringify(Ticket);
+
+   $.ajax({
+      type: "POST",
+      url: "php/GenerarTicket.php",
+      data: {ticket : jsonStr}, 
+      success: function(data) { 
+         alert(data);
+      }
+   });
 }
-

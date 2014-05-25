@@ -21,7 +21,7 @@ $Drinks_js = json_encode($Drinks);
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
     <title>Bean Me Up</title>
     <link rel="stylesheet" href="../../css/foundation.css" />
-    <link rel="stylesheet" href="../../css/sticky-footer.css" />
+    <link rel="stylesheet" href="../../css/header.css" />
     <link rel="stylesheet" href="../../css/style.css" />
     <link rel="stylesheet" href="../../css/Vendor/colorbox.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
@@ -31,34 +31,37 @@ $Drinks_js = json_encode($Drinks);
     
   </head>
   <body>
-    <br>
-    <div class="wrap">
-      <div class="row">
-        <div id="inventario" class="large-9 columns">
-          
-          <ul id="lista-productos" class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
-          </ul>
-        </div>
-      
-        <div id="venta" class="large-3 columns">
-          <div id="total" class=""></div>
-            <ul id="lista-total" class="no-bullet">       
-            </ul>
-            <button id="login" type="submit" class="medium small-12 radius button" onclick="PostingPosts()" style="top 100rem">Efectuar
-            </button>
-          </div>
-          
-        </div>
-      </div>
-    </div>   
-    <div class='footer' >
-        <ul class="inline-list text-center">
+    <div id='main-header' class="row" >
+        <ul >
           <li><a href="#">Cafe's</a></li>
           <li><a href="#">Snacks</a></li>
           <li><a href="../Registro/Registrys/RegistryEmployees.html">Agregar Empleado</a></li>
           <li><a href="../Login/logout.php">Cerrar Sesion</a></li>
         </ul>
     </div>
+
+    <div class="wrap">
+      <div class="row">
+        <div id="inventario" class="large-9 columns">          
+          <ul id="lista-productos" class="small-block-grid-2 medium-block-grid-3 large-block-grid-4"> 
+          </ul>
+        </div>
+      
+        <div id="venta" class="large-3 columns">
+          <div id="contenedor-total">
+            <p>SubTotal: <span id="subtotal" class="right"></span></p>
+            <p>Iva:      <span id="iva" class="right"></span></p>
+            <p>Total:    <span id="total" class="right"></span></p>
+          </div>
+          <ul id="lista-articulos" class="no-bullet">       
+          </ul>
+          <button id="login" type="submit" class="medium small-12 radius button" onclick="EfectuarVenta()" style="top 100rem">Efectuar
+          </button>
+          </div>
+          
+        </div>        
+      </div>
+    </div>   
 
 
 
