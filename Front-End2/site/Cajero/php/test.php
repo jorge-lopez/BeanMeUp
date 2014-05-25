@@ -1,7 +1,5 @@
 <?php
-$variable = $_POST['choices'];
-echo json_encode($variable);
-
-$variable2 = $_POST['choices2'];
-$message
+session_start();
+$dbemployeeID = $_SESSION["EmployeeID"];
+echo $dbemployeeID;
 ?>
