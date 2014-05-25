@@ -8,6 +8,7 @@ while ($row = mysql_fetch_assoc($LoginQuery)) {
 	$dbEmail = $row['Email'];
 	$dbPassword = $row['Password'];
 	$dbFirstName = $row['FirstName'];
+	$dbEmployeeID = $row['EmployeeID'];
 }
 if( empty($_POST['User']) && empty($_POST['Pass']) ) {
 	header('Location: loginPage.html' );
@@ -18,6 +19,7 @@ else if ($username == $dbEmail && $password == $dbPassword) {
 	session_start();
 	$_SESSION["Login"] = "YES";
 	$_SESSION["Name"] = $dbFirstName;
+	$_SESSION["EmployeeID"] = $dbEmployeeID;
 	header('Location: ../Cajero/index.html' );
 }
 else {
