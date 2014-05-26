@@ -49,11 +49,11 @@ $Drinks_js = json_encode($Drinks);
       
         <div id="venta" class="large-3 columns">
           <div id="contenedor-total">
-            <p>SubTotal: <span id="subtotal" class="right"></span></p>
-            <p>Iva:      <span id="iva" class="right"></span></p>
-            <p>Total:    <span id="total" class="right"></span></p>
+            <p>SubTotal: <span id="subtotal" class="right">$0.00</span></p>
+            <p>Iva:      <span id="iva" class="right">$0.00</span></p>
+            <p>Total:    <span id="total" class="right">$0.00</span></p>
           </div>
-          <ul id="lista-articulos" class="no-bullet">       
+          <ul id="lista-ventas" class="no-bullet">       
           </ul>
           <button id="login" type="submit" class="medium small-12 radius button" onclick="EfectuarVenta()" style="top 100rem">Efectuar
           </button>

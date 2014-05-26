@@ -63,7 +63,7 @@ function AgnadirACarrito(IdProducto, Nombre, IdSize, StringTamagno, Precio){
    var identificador = IdProducto + '-' + IdSize;
 
    if(cantidad == 1){
-         $("#lista-articulos").append("<li><a class='small button secondary expand'>" + 
+         $("#lista-ventas").append("<li><a class='small button secondary expand'>" + 
             "<span id='" + identificador + "' class='nombre left'>" + Nombre + " " + StringTamagno + "</span>" +
             "<span id='" + identificador + "' class='cantidad text-center'>" + "</span>" +
             "<span id='" + identificador + "' class='precio right'>$" + FormatearNumeros(Precio) + "</span></a></li>" ); 
@@ -75,12 +75,12 @@ function AgnadirACarrito(IdProducto, Nombre, IdSize, StringTamagno, Precio){
    }  
    
 
-
-   subtotal = FormatearNumeros(subtotal + Precio);
+   subtotal += Precio;   
    var iva = FormatearNumeros(subtotal * .16);
    var total = FormatearNumeros(subtotal * 1.16);
+   var subtotalString = FormatearNumeros(subtotal);
 
-   $("span#subtotal").html("$" + subtotal);
+   $("span#subtotal").html("$" + subtotalString);
    $("span#iva").html("$" + iva);
    $("span#total").html("$" + total);
 }
@@ -89,11 +89,10 @@ function FormatearNumeros(Numero){
 }
 
 function EfectuarVenta(){      
-      
-   var mensaje = "";
-   var jsonStr = "";
-   var Ticket = [];
 
+   var mensaje = "";
+   var Ticket = [];
+   //Productos
    for (var key in Vendiendo) {
       var RawInfo = key.split('-');
       var Item = {};
@@ -104,14 +103,42 @@ function EfectuarVenta(){
       Ticket.push(Item);
    }
 
-   jsonStr = JSON.stringify(Ticket);
+   //Promocion, Total
+   var rawTotalStr = document.getElementById("total").innerHTML;
+   var rawStr = rawTotalStr.split('$');
+   var detalles = {
+       "total" : parseFloat(rawStr[1]),
+       "promocion" : ""
+   }
+   var jsonStr = JSON.stringify(Ticket);
+   var jsonStr2 = JSON.stringify(detalles);
 
    $.ajax({
       type: "POST",
       url: "php/GenerarTicket.php",
-      data: {ticket : jsonStr}, 
+      data: {ticket : jsonStr,
+            totalDetalles: jsonStr2}, 
       success: function(data) { 
-         alert(data);
+         alert("Operacion Exitosa");
+         ClearCajero();
       }
    });
+
+   
+
+}
+
+function ClearCajero() {
+
+   Vendiendo = new Object();
+
+   $("ul#lista-ventas").empty();
+
+   $("span#subtotal").html("$0.00");
+   $("span#iva").html("$0.00");
+   $("span#total").html("$0.00");
+
+   subtotal = 0;
+
+
 }

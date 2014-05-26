@@ -3,9 +3,11 @@ include '../../db_connect.php';
 session_start();
 $Ticket = $_POST['ticket'];
 $TicketArray = json_decode($Ticket,true);
-$Precio = $_POST['detallesTotal'];
+$RawTotalDetalles = $_POST['totalDetalles'];
+$TotalDetalles = json_decode($RawTotalDetalles, true);
+$Total = $TotalDetalles["total"];
 $dbEmployeeID = $_SESSION["EmployeeID"];
-$InsertTicketSP ="call sp_Ticket('0','$dbEmployeeID','100.00');";
+$InsertTicketSP ="call sp_Ticket('0','$dbEmployeeID','$Total');";
 $InsertTicketQuery = mysql_query($InsertTicketSP) or die(mysql_error());;
 mysql_close();
 
@@ -23,9 +25,6 @@ $Cantidad = $item['Cantidad'];
 $InsertTicketDetailSP ="call sp_TicketDetail('0','$dbTicketID','$ProductId','$SizeId','$Cantidad');";
 $InsertTicketDetailQuery = mysql_query($InsertTicketDetailSP) or die(mysql_error());;
 
-    echo "ProductId : " . $item['ProductId'] 
-    	. ", SizeId : " . $item['SizeId'] 
-		. ", Cantidad : " . $item['Cantidad'] . "\n"; //etc
 }
 mysql_close();
 
