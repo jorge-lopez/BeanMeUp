@@ -2,10 +2,8 @@
   include '../db_connect.php';
   session_start();
 
-  if(empty($_SESSION["Login"])){
-    header('Location: http://' . $_SERVER['HTTP_HOST'] . '/Login/loginPage.html');
-    exit;
-  }
+  include'../user_session.php';
+
   $GetAllDrinksSP ="call sp_Product_ByCategoryID('1');";
   $GetAllDrinksQuery = mysql_query($GetAllDrinksSP);
   while($row = mysql_fetch_assoc($GetAllDrinksQuery)){
@@ -35,7 +33,6 @@ $Drinks_js = json_encode($Drinks);
         <ul >
           <li><a href="#">Cafe's</a></li>
           <li><a href="#">Snacks</a></li>
-          <li><a href="../Registro/Registrys/RegistryEmployees.html">Agregar Empleado</a></li>
           <li><a href="../Login/logout.php">Cerrar Sesion</a></li>
         </ul>
     </div>
