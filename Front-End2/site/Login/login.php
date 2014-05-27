@@ -20,7 +20,7 @@ else if ($username == $dbEmail && $password == $dbPassword) {
 	$_SESSION["Login"] = "YES";
 	$_SESSION["Name"] = $dbFirstName;
 	$_SESSION["EmployeeID"] = $dbEmployeeID;
-	header('Location: ../Cajero/index.html' );
+	header('Location: ../Cajero/' );
 }
 else {
 	header('Location: loginPage.html' );
