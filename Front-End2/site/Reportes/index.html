@@ -1,0 +1,89 @@
+<?php
+  include '../db_connect.php';
+  session_start();
+
+  if(empty($_SESSION["Login"])){
+    header('Location: http://' . $_SERVER['HTTP_HOST'] . '/Login/loginPage.html');
+    exit;
+  }
+
+?>
+
+
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <title>Bean Me Up</title>
+    <link rel="stylesheet" href="../../css/foundation.css" />    
+    <link rel="stylesheet" href="../../css/header.css" />    
+    <link rel="stylesheet" href="../../css/style.css" />    
+    <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+    <link rel="icon" type="image/ico" href="../../img/Icon.ico"/>
+    <style type="text/css">
+    #wrap{
+      margin-top: 4rem;
+    }
+    #opciones > ul{
+       margin-top: 15%;
+    }
+    </style>
+  </head>
+  <body>
+    <div id='main-header' class="row" >        
+         <ul>      
+          <li>Panel de Reportes</li>    
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="../Login/logout.php">Cerrar Sesion</a></li>
+        </ul>  
+    </div>
+
+    <div id="wrap">
+      <div class="row text-center">
+        <div id="opciones" class="large-12 columns">       
+          <ul class="small-block-grid-5"> 
+            <li>
+              <a href="empleados.html" class="button radius">
+                <p><i class="fa fa-users fa-5x"></i></p>
+                <span>Empleados</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="button radius">
+                <p><i class="fa fa-truck fa-5x"></i></p>
+                <span>Proveedores</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="button radius">
+                <p><i class="fa fa-bar-chart-o fa-5x"></i></p>
+                <span>Ventas</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="button radius">
+                <p><i class="fa fa-tag fa-5x"></i></p>
+                <span>Promociones</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="button radius">
+                <p><i class="fa fa-cubes fa-5x"></i></p>
+                <span>Inventario</span>
+              </a>
+            </li>
+          </ul>                 
+        </div>
+      </div>
+    </div>
+
+      
+
+    <script src="../../js/vendor/jquery.js"></script>    
+    <script src="../../js/foundation.min.js"></script>        
+    <script type="text/javascript">
+      $(document).foundation();         
+    </script> 
+  </body>
+</html>
