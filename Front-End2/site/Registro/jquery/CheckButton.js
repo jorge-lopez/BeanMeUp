@@ -15,7 +15,7 @@ $(document).ready(function() {
                 $('#username_availability_result').html(characters_error);  
             }else{  
                 //else show the cheking_text and run the function to check  
-                $('#username_availability_result').html(checking_html);  
+                $('#username_availability_result').html(checking_html);
                 check_availability()  
             }  
         });  
@@ -34,7 +34,8 @@ function check_availability(){
                 //if the result is 1  
                 if(result == 1){  
                     //show that the username is available  
-                    $('#username_availability_result').html(Email + ' esta Disponible');  
+                    $('#username_availability_result').html(Email + ' esta Disponible');
+                $( "input#ButtonEnter" ).prop( "disabled", false );    
                 }else{  
                     //show that the username is NOT available  
                     $('#username_availability_result').html(Email + ' no esta Disponible');  
