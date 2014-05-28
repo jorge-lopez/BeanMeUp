@@ -9,6 +9,7 @@ while ($row = mysql_fetch_assoc($LoginQuery)) {
 	$dbPassword = $row['Password'];
 	$dbFirstName = $row['FirstName'];
 	$dbEmployeeID = $row['EmployeeID'];
+	$dbPositionID = $row['PositionID'];
 }
 if( empty($_POST['User']) && empty($_POST['Pass']) ) {
 	header('Location: loginPage.html' );
@@ -17,10 +18,19 @@ else if ($username == $dbEmail && $password == $dbPassword) {
 
 	//$encryptedPassword = md5($dbPassword);
 	session_start();
-	$_SESSION["Login"] = "YES";
-	$_SESSION["Name"] = $dbFirstName;
-	$_SESSION["EmployeeID"] = $dbEmployeeID;
-	header('Location: ../Cajero/' );
+	if($dbPositionID == "1"){
+		$_SESSION["Login"] = "YES";
+		$_SESSION["Name"] = $dbFirstName;
+		$_SESSION["EmployeeID"] = $dbEmployeeID;
+		header('Location: ../Cajero/' );
+	}
+	else if($dbPositionID == "2"){
+		header('Location: ..Reportes/');
+	}
+	else{
+		header('Location: ..Reportes/');
+	}
+
 }
 else {
 	header('Location: loginPage.html' );

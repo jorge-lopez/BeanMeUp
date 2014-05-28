@@ -16,11 +16,14 @@ if($Selected_radio == 'Male'){
 else if($Selected_radio == 'Female'){
 	$Selected_radio ='1';
 }
-if($Registrar == 'Cashier'){
-	$Registrar = '0';
+if($Registrar == 'Cajero'){
+	$Registrar = '1';
 }
-else if($Registrar == 'Manager'){
-	$Registrar ='1';
+else if($Registrar == 'Supervisor'){
+	$Registrar ='2';
+}
+else{
+	$Registrar = '3';
 }
 if( empty($_POST['FName']) && empty($_POST['LName']) && empty($_POST['Telephone']) && empty($_POST['Email']) && empty($_POST['Address']) && empty($_POST['Password']) && empty($_POST['VPassword']) && empty($_POST['Gender']) && empty($_POST['Salary']) && empty($_POST['Registro'])) {
 	header('Location: RegistryEmployees.html' );
