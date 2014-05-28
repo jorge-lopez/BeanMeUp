@@ -8,7 +8,7 @@ $(document).ready(function() {
         var checking_html = 'Checking...';  
   
         //when button is clicked  
-        $('#check_username_availability').keyup(function(){  
+        $('input#Email').keyup(function(){  
             //run the character number check  
             if($('#Email').val().length < min_chars){  
                 //if it's bellow the minimum show characters_error text '  
@@ -41,4 +41,4 @@ function check_availability(){
                 }  
         });  
   
-}  
+}
