@@ -25,10 +25,10 @@ else if ($username == $dbEmail && $password == $dbPassword) {
 		header('Location: ../Cajero/' );
 	}
 	else if($dbPositionID == "2"){
-		header('Location: ..Reportes/');
+		header('Location: ../Reportes/');
 	}
 	else{
-		header('Location: ..Reportes/');
+		header('Location: ../Reportes/');
 	}
 
 }
