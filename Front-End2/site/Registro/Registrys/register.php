@@ -12,11 +12,12 @@ $Salary = $_POST['Salary'];
 $Registrar = $_POST['Registrar'];
 
 if($Selected_radio == 'Male'){
-	$Selected_radio = '0';
+	$Selected_radio = '';
 }
 else if($Selected_radio == 'Female'){
-	$Selected_radio ='1';
+	$Selected_radio = '0';
 }
+
 if($Registrar == 'Cajero'){
 	$Registrar = '1';
 }
@@ -37,7 +38,7 @@ else{
 	if($Password == $VPassword){
 		include '../../db_connect.php';
 		$sql = mysql_query("CALL sp_Employee('0','$Registrar','$FirstName','$LastName','$Selected_radio','$Phone','$Address','$Email','$Password','$Salary');")or die(mysql_error());
-		//echo "$Registrar, $FirstName, $LastName, $Selected_radio, $Phone, $Address, $Email, $Password, $Salary";
+		echo "$encryptedPassword";
 		echo "Se agrego";
 		mysql_close($connection);
 	}

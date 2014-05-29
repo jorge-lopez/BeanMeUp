@@ -12,7 +12,7 @@ while ($row = mysql_fetch_assoc($LoginQuery)) {
 	$dbPositionID = $row['PositionID'];
 }
 if( empty($_POST['User']) && empty($_POST['Pass']) ) {
-	header('Location: loginPage.html' );
+	header('Location: index.html' );
 }
 else if ($username == $dbEmail && $password == $dbPassword) {
 
@@ -25,15 +25,17 @@ else if ($username == $dbEmail && $password == $dbPassword) {
 		header('Location: ../Cajero/' );
 	}
 	else if($dbPositionID == "2"){
-		header('Location: ../Reportes/');
+		$_SESSION["Login"] = "YES";
+		header('Location: ../Reportes/index.html' );
 	}
 	else{
-		header('Location: ../Reportes/');
+		$_SESSION["Login"] = "YES";
+		header('Location: ../Reportes/index.html' );
 	}
 
 }
 else {
-	header('Location: loginPage.html' );
+	header('Location: index.html' );
 }
 
 mysql_close()

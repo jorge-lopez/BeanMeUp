@@ -35,10 +35,11 @@ function check_availability(){
                 if(result == 1){  
                     //show that the username is available  
                     $('#username_availability_result').html(Email + ' esta Disponible');
-                $( "input#ButtonEnter" ).prop( "disabled", false );    
+                    $( "input#ButtonEnter" ).prop( "disabled", false );    
                 }else{  
                     //show that the username is NOT available  
-                    $('#username_availability_result').html(Email + ' no esta Disponible');  
+                    $('#username_availability_result').html(Email + ' no esta Disponible');
+                    $( "input#ButtonEnter" ).prop( "disabled", true );  
                 }  
         });  
   
