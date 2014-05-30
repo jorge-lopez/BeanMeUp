@@ -29,7 +29,7 @@ function LlenarTabla(TuplasJSON){
 	var NumeroFilas = tuplas.length;
 	var html = "<tbody>";    
     
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < NumeroFilas; i++) {
     	html += "<tr>";	
     	var temp = tuplas[i];
 		for (var key in temp) {

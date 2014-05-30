@@ -25,17 +25,20 @@
   <body>
     <div id='main-header' class="row" >        
          <ul>      
-          <li><span>Panel de Reportes</span></li>    
-          <li><a href="../Reportes/">Inicio</a></li>
+          <li><span>Panel de Actualizaciones</span></li>    
+          <li><a href="../Actualizar/">Inicio</a></li>
           <li><a href="../Login/logout.php">Cerrar Sesion</a></li>
         </ul>  
     </div>
 
-    <div id="wrap">
+  <div id="wrap">
       <div class="row text-center">
         <div id="opciones" class="large-12 columns">
-
-          <table id="reporte">          
+          <a href="../Registro/Registrys/RegistryProviders.html" class="button radius success right">
+            <i class="fa fa-plus-square-o fa-lg"></i>
+            Crear Proveedor            
+          </a>
+          <table id="reporte">                      
           </table>
         </div>
       </div>
@@ -48,7 +51,7 @@
     <script src="js/scripts.js"></script>     
     <script type="text/javascript">
       $(document).foundation();           
-      $(document).ready(ObtenerColumnas());  
+      $(document).ready(ObtenerDatos("ProveedoresColumnas","ProveedoresInformacion"));  
       </script>
   </body>
 </html>
