@@ -1,4 +1,6 @@
-
+<?php
+  $Action = $_GET['action'];
+?>
 <head>
   <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="../../Registro/foundation-5.2.2/css/normalize.css">
@@ -19,7 +21,7 @@
     <br><br>
   <div class="row collapse">
     <div class="small-8 columns small-centered">
-    <form action="/php/register.php" method="POST" id="container">
+    <form action="php/EmpleadoInsert.php" method="POST" id="container">
         <br>
       <div class="large-6 columns">
         <div class="row collapse">
@@ -163,7 +165,7 @@
         </div>
         <div class="row collapse">
             <input class=" button small-6 columns" type="submit" name="ButtonEnter" value="Enter" id="ButtonEnter"disabled/>          
-            <input class=" button [secondary alert alert] small-6 columns " type="submit" name="ButtonCancel" value="Cancel" id="buttons"/>  
+            <input class=" button small-6 columns " type="submit" name="ButtonCancel" value="Cancel" id="buttons"/>  
         </div end>
 
     </form>
@@ -171,10 +173,15 @@
 </div>
 
 
-<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+<script src="../../../js/vendor/jquery.js"></script>   
 <script src="../../Registro/jquery/jquery.maskedinput.js" type="text/javascript"></script>
 <script src="../../Registro/jquery/test.js"></script>
-<script src="../../Registro/jquery/CheckButton.js"></script>
+<script src="js/CheckButton.js"></script>
+<script type="text/javascript">
+  $(document).ready(InputEmpleado());
+  alert('<?php echo $Action ?>');
+</script>
+
 
 
 </body>
