@@ -15,9 +15,9 @@ function AgregarColumnasHTML(ColumasJSON){
 	var width = 100/columnas.length;
 	var html = "<thead><tr>";
 
-	$(columnas).each(function(){			
-		html += "<th class='text-center' width='" + width + "%'>" + this + "</th>"            
-	});	
+	for (var i = 1; i < columnas.length; i++) {	
+		html += "<th class='text-center' width='" + width + "%'>" + columnas[i] + "</th>";            
+	}
 
 	html += "</tr></thead>";
 	$("table#reporte").append(html);
@@ -33,7 +33,8 @@ function LlenarTabla(TuplasJSON){
     	html += "<tr>";	
     	var temp = tuplas[i];
 		for (var key in temp) {
-			html += '<td>' + temp[key] +'</td>';    
+			if(key != "ID")
+				html += '<td>' + temp[key] +'</td>';    
 		}
 		html += "</tr>";
 	}
