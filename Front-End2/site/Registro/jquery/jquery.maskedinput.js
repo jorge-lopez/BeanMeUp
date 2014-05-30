@@ -320,7 +320,7 @@ $.fn.extend({
 						input.caret(pos); 
 						if (settings.completed && pos == input.val().length)
 							settings.completed.call(input);
-					}, 0);
+					},0 );
 				});
 			checkVal(); //Perform initial check for existing values
 		});
