@@ -1,10 +1,10 @@
 
-function ObtenerDatos(){
+function ObtenerDatos(ArchivoColumnas, ArchivoDatos){
 
-	$.get("php/ReporteEmpleados.php", function(data) {
+	$.get("php/" + ArchivoColumnas + ".php", function(data) {
 	         AgregarColumnasHTML(data);      
 	});
-	$.get("php/InformacionEmpleados.php", function(data) {
+	$.get("php/" + ArchivoDatos + ".php", function(data) {
 	         LlenarTabla(data);      
 	});
 }
@@ -15,7 +15,11 @@ function AgregarColumnasHTML(ColumasJSON){
 	var width = 100/columnas.length;
 	var html = "<thead><tr>";
 
-	for (var i = 1; i < columnas.length; i++) {	
+	var i = 1;
+	if(columnas[0] != "ID")
+		i = 0;
+
+	for (i; i < columnas.length; i++) {	
 		html += "<th class='text-center' width='" + width + "%'>" + columnas[i] + "</th>";            
 	}
 
