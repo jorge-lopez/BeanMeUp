@@ -29,7 +29,7 @@ function check_availability(){
         var Email = $('#Email').val();  
   
         //use ajax to run the check  
-        $.post("checkProvidersEmail.php", { Email: Email },  
+        $.post("php/checkProvidersEmail.php", { Email: Email },  
             function(result){  
                 //if the result is 1  
                 if(result == 1){  
