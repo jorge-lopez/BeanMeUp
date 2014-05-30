@@ -16,7 +16,6 @@ if( empty($_POST['User']) && empty($_POST['Pass']) ) {
 }
 else if ($username == $dbEmail && $password == $dbPassword) {
 
-	//$encryptedPassword = md5($dbPassword);
 	session_start();
 	if($dbPositionID == "1"){
 		$_SESSION["Login"] = "YES";
@@ -26,7 +25,7 @@ else if ($username == $dbEmail && $password == $dbPassword) {
 	}
 	else if($dbPositionID == "2"){
 		$_SESSION["Login"] = "YES";
-		header('Location: ../Reportes/index.html' );
+		header('Location: ../Actualizar/index.html' );
 	}
 	else{
 		$_SESSION["Login"] = "YES";

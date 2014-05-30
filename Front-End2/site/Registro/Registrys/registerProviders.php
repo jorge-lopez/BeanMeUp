@@ -17,6 +17,7 @@ if(!filter_var($Email, FILTER_VALIDATE_EMAIL)){
 else{
 		include '../../db_connect.php';
 		$sql = mysql_query("CALL sp_Provider('0','$NombreProveedor','$Direccion','$Telefono','$Celular','$NombreCompania','$Email');")or die(mysql_error());
+		echo "$NombreProveedor, $NombreCompania, $Email, $Telefono, $Celular, $Direccion";
 		echo "Se agrego";
 		mysql_close($connection);
 }
