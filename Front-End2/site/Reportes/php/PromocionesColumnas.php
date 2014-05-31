@@ -2,14 +2,14 @@
 
 include '../../db_connect.php';
 
-$SelectEmployeeFieldSP = "call sp_Provider_List();";
-$SelectEmployeeFieldQuery = mysql_query($SelectEmployeeFieldSP);
+$SelectCouponsFieldSP = "call sp_Coupon_List();";
+$SelectCouponsFieldQuery = mysql_query($SelectCouponsFieldSP);
 
-while ($FieldNames = mysql_fetch_field($SelectEmployeeFieldQuery)) {
+while ($FieldNames = mysql_fetch_field($SelectCouponsFieldQuery)) {
 	$FieldNamesArray[] = $FieldNames->name;
 }
-$FielNamesJSON = json_encode ($FieldNamesArray);
-echo $FielNamesJSON;
+$FieldNamesJSON = json_encode ($FieldNamesArray);
+echo $FieldNamesJSON;
 mysql_close();
 
 ?>

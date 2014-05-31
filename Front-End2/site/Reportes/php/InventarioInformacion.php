@@ -1,14 +1,14 @@
 <?php
 include '../../db_connect.php';
 
-$EmployeeSP = "call sp_Provider_List();";
-$EmployeeQuery = mysql_query($EmployeeSP);
+$StockSP = "call sp_Stock_List();";
+$StockQuery = mysql_query($StockSP);
 
-while ($row = mysql_fetch_assoc($EmployeeQuery)) {
-	$Employees[] = $row;
+while ($row = mysql_fetch_assoc($StockQuery)) {
+	$Stocks[] = $row;
 }
 
-$EmployeesData = json_encode($Employees);
-echo $EmployeesData;
+$StockData = json_encode($Stocks);
+echo $StockData;
 mysql_close();
 ?>
