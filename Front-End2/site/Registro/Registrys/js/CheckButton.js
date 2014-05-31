@@ -17,13 +17,13 @@ function InputEmpleado(){
             }else{  
                 //else show the cheking_text and run the function to check  
                 $('#username_availability_result').html(checking_html);
-                emailIsAvailable = check_availability()
-                if(passwordMatch == true && emailIsAvailable==true){
-                    $( "input#ButtonEnter" ).prop( "disabled", false ); 
-                }
-                else{
-                    $( "input#ButtonEnter" ).prop( "disabled", true ); 
-                }  
+                emailIsAvailable = check_availability();                
+                // if(passwordMatch == true && emailIsAvailable==true){
+                //     $( "input#ButtonEnter" ).prop( "disabled", false ); 
+                // }
+                // else{
+                //     $( "input#ButtonEnter" ).prop( "disabled", true ); 
+                // }  
             }  
         });  
 
@@ -35,13 +35,13 @@ function InputEmpleado(){
             }else{  
                 //else show the cheking_text and run the function to check  
                 $('#Password_Matches').html(checking_html);
-                passwordMatch = check_password() 
-                if(passwordMatch == true && emailIsAvailable==true){
-                    $( "input#ButtonEnter" ).prop( "disabled", false ); 
-                }
-                else{
-                    $( "input#ButtonEnter" ).prop( "disabled", true ); 
-                }
+                passwordMatch = check_password(); 
+                // if(passwordMatch == true && emailIsAvailable==true){
+                //     $( "input#ButtonEnter" ).prop( "disabled", false ); 
+                // }
+                // else{
+                //     $( "input#ButtonEnter" ).prop( "disabled", true ); 
+                // }
 
             }  
         });
@@ -52,24 +52,30 @@ function InputEmpleado(){
 //function to check username availability  
 function check_availability(){  
   
-        //get the username  
-        var Email = $('#Email').val();  
+    //get the username  
+    var result;
+    var Email = $('#Email').val();  
   
-        //use ajax to run the check  
-        $.post("php/CheckEmployeeEmail.php", { Email: Email },  
-            function(result){  
-                //if the result is 1  
-                if(result == 1){  
-                    //show that the username is available  
-                    $('#username_availability_result').html(Email + ' esta Disponible');
-                    return true;
-                }else{  
-                    //show that the username is NOT available  
-                    $('#username_availability_result').html(Email + ' no esta Disponible');
-                    return false; 
-                }  
-        });  
-  
+
+    var jqXHR = $.ajax({
+         type: "POST",
+         url: "php/CheckEmployeeEmail.php",
+         data: { Email: Email }, 
+         success: function(data) { 
+           if(data == 1){  
+                //show that the username is available  
+                $('#username_availability_result').html(Email + ' esta Disponible');
+                result = true;
+            }else{  
+                //show that the username is NOT available  
+                $('#username_availability_result').html(Email + ' no esta Disponible');
+                result = false; 
+            } 
+         }
+      });
+    jqXHR.done(function () {
+        return result;
+    });
 }
 
 function check_password(){  

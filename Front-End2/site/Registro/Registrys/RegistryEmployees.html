@@ -21,7 +21,7 @@
     <br><br>
   <div class="row collapse">
     <div class="small-8 columns small-centered">
-    <form action="php/EmpleadoInsert.php" method="POST" id="container">
+    <form action="php/Empleado<?php echo $Action ?>.php" method="POST" id="container">
         <br>
       <div class="large-6 columns">
         <div class="row collapse">
@@ -164,8 +164,8 @@
               </div>
         </div>
         <div class="row collapse">
-            <input class=" button small-6 columns" type="submit" name="ButtonEnter" value="Enter" id="ButtonEnter"disabled/>          
-            <input class=" button small-6 columns " type="submit" name="ButtonCancel" value="Cancel" id="buttons"/>  
+            <input class=" button small-6 columns" type="submit" name="ButtonEnter" value="Enter" id="ButtonEnter"/>          
+            <input class=" button alert small-6 columns " type="submit" name="ButtonCancel" value="Cancel" id="buttons"/>  
         </div end>
 
     </form>
@@ -179,7 +179,6 @@
 <script src="js/CheckButton.js"></script>
 <script type="text/javascript">
   $(document).ready(InputEmpleado());
-  alert('<?php echo $Action ?>');
 </script>
 
 
