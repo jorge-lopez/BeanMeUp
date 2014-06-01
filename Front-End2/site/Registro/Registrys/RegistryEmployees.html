@@ -24,7 +24,7 @@
   <div class="row collapse">
     <div class="small-8 columns small-centered">
     <form action="php/Empleado<?php echo $Action ?>.php" method="POST" id="container">
-      <input value="<?php echo $ID ?>"type="hidden" name="ID">
+      <input value="<?php echo $ID ?>" type="hidden" name="ID">
         <br>
       <div class="large-6 columns">
         <div class="row collapse">
@@ -147,9 +147,9 @@
         <label>
             Gender
           </label>
-            <input class="small-2 columns"  type="radio" name="Gender" value="Male" id="genderMale">
+            <input id='Male' class="small-2 columns"  type="radio" name="Gender" value="Male" id="genderMale">
             <label class="small-3 columns" for="genderMale">Male</label>
-            <input class="small-2 columns" type="radio" name="Gender" value="Female" id="genderFemale">
+            <input id='Female' class="small-2 columns" type="radio" name="Gender" value="Female" id="genderFemale">
             <label class="small-3 columns" for="genderFemale">Female</label>
       </div>
       </div>
@@ -158,11 +158,11 @@
                   <label>
                     Hierarchy
                   </label>
-                    <input class="small-1 columns"  type="radio" name="Registrar" value="Gerente" id="managerButton">
+                    <input id='Gerente' class="small-1 columns"  type="radio" name="Registrar" value="Gerente" id="managerButton">
                     <label class="small-2 columns" for="Manager">Gerente</label>
-                    <input class="small-1 columns" type="radio" name="Registrar" value="Cajero" id="cashierButton">
+                    <input id='Cajero' class="small-1 columns" type="radio" name="Registrar" value="Cajero" id="cashierButton">
                     <label class="small-2 columns" for="Cashier">Cajero</label>
-                    <input class="small-1 columns" type="radio" name="Registrar" value="Supervisor" id="supervisorButton">
+                    <input id='Supervisor' class="small-1 columns" type="radio" name="Registrar" value="Supervisor" id="supervisorButton">
                     <label class="small-3 columns" for="Supervisor">Supervisor</label>
               </div>
         </div>
@@ -180,12 +180,10 @@
 <script src="../../Registro/jquery/jquery.maskedinput.js" type="text/javascript"></script>
 <script src="../../Registro/jquery/test.js"></script>
 <script src="js/CheckButton.js"></script>
-<script src="js/LlenadoEmployee.js"></script>
+<script src="js/LlenadoEmpleado.js"></script>
 <script type="text/javascript">
   $(document).ready(InputEmpleado());
-  var Llenado = "<?php echo $Action ?>";
-  if(Llenado != "Insert")
-    LLenarCampos("<?php echo $ID ?>");
+  $(document).ready(LlenarCampos("<?php echo $Action ?>", "<?php echo $ID ?>"));    
 </script>
 
 
