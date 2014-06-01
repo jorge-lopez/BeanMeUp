@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 30, 2014 at 12:24 AM
+-- Generation Time: May 31, 2014 at 11:23 PM
 -- Server version: 5.1.69
 -- PHP Version: 5.2.17
 
@@ -25,6 +25,55 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Coupon`(IN
+p_CouponID INT,
+p_ExpirationDate datetime,
+p_Discount int,
+p_Description varchar(500)
+)
+BEGIN
+
+IF p_CouponID=0 THEN
+INSERT INTO tblCoupon (
+ExpirationDate,
+Discount,
+Description
+)
+
+VALUES
+(
+p_ExpirationDate,
+p_Discount,
+p_Description
+);
+
+ELSE
+UPDATE tblCoupon
+SET
+ExpirationDate=p_ExpirationDate,
+Discount=p_Discount,
+Description=p_Description
+
+WHERE CouponID=p_CouponID;
+
+end if;
+
+end$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Coupon_List`()
+BEGIN
+
+SELECT
+
+tblCoupon.CouponID as "ID",
+tblCoupon.ExpirationDate as "Expiracion",
+tblCoupon.Discount as "Descuento",
+tblCoupon.Description as "Descripcion"
+
+FROM tblCoupon;
+
+end$$
+
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_EmailVerification`(IN
 p_Email VARCHAR(100)
 )
@@ -83,12 +132,45 @@ else
 	Phone=p_Phone,
 	Address=p_Address,
 	Email=p_Email,
-	Password=p_Password,
 	Salary=p_Salary
-
+        
 	WHERE EmployeeID=p_EmployeeID;
-
+        
+        if p_Password<>'' then
+        UPDATE tblEmployee set Password=p_Password where EmployeeID=p_EmployeeID;
+        end IF;
+        
 END IF;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Employee_ByID`(IN
+p_EmployeeID INT
+)
+BEGIN
+
+SELECT
+
+tblEmployee.EmployeeID,
+tblEmployee.PositionID,
+tblEmployee.FirstName,
+tblEmployee.LastName,
+(case when tblEmployee.Gender=0 then "Male" else "Female" end) as Gender,
+tblEmployee.Phone,
+tblEmployee.Address,
+tblEmployee.Email,
+tblEmployee.Salary
+
+ FROM tblEmployee WHERE EmployeeID=p_EmployeeID;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Employee_Del`(IN
+p_EmployeeID INT
+)
+begin
+
+DELETE FROM tblEmployee where EmployeeID=p_EmployeeID;
 
 END$$
 
@@ -97,6 +179,7 @@ BEGIN
 
 SELECT
 
+tblEmployee.EmployeeID as ID,
 tblPosition.PositionName as Posicion,
 tblEmployee.FirstName as Nombres,
 tblEmployee.LastName as Apellidos,
@@ -291,8 +374,8 @@ CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Provider`(IN
 p_ProviderID INT,
 p_ProviderName varchar(100),
 p_ProviderAddress VARCHAR(300),
-p_ProviderPhone INT,
-p_ProviderCellphone INT,
+p_ProviderPhone varchar(50),
+p_ProviderCellphone varchar(50),
 p_ProviderCompany VARCHAR(100),
 p_ProviderEmail varchar(100)
 )
@@ -340,6 +423,22 @@ SELECT * FROM tblProvider WHERE Email=p_Email;
 
 END$$
 
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Provider_List`()
+BEGIN
+
+	SELECT
+
+	ProviderID as ID,
+	ProviderName as Nombre,
+	ProviderAddress as Direccion,
+	ProviderPhone as Telefono,
+	ProviderCellphone as Celular,
+	ProviderCompany as Compañia,
+	ProviderEmail as Email
+
+	FROM tblProvider;
+END$$
+
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Size`(IN
 p_SizeID INT,
 p_SizeName VARCHAR(50),
@@ -368,33 +467,23 @@ END IF;
 
 END$$
 
-CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Stock`(IN
-p_StockID INT,
-p_StockName varchar(50),
-p_QuantityAvailable INT
-)
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Stock_List`()
 BEGIN
 
-IF p_StockID=0 THEN
-    	INSERT INTO tblStock
-    	(
-     	StockName,
-     	QuantityAvailable
-    	)
-    	VALUES
-    	(
-    	p_StockID,
-    	p_QuantityAvailable
-    	);
-ELSE
-    	UPDATE tblStock SET
-    	StockName=p_StockID,
-    	QuantityAvailable=p_QuantityAvailable
-   	 
-    	WHERE StockID=p_StockID;
-END IF;
+SELECT
 
-END$$
+tblStock.StockID as "ID",
+tblProvider.ProviderCompany as "Compañia",
+tblStock.StockName as "Consumible",
+tblStock.QuantityAvailable as "Disponible",
+tblUnit.UnitName as "Unidad"
+
+FROM tblStock
+
+JOIN tblProvider on tblStock.ProviderID=tblProvider.ProviderID
+JOIN tblUnit on tblUnit.UnitID=tblStock.UnitID;
+
+end$$
 
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Ticket`(IN
 p_TicketID INT,
@@ -490,8 +579,17 @@ CREATE TABLE IF NOT EXISTS `tblCoupon` (
   `CouponID` int(11) NOT NULL AUTO_INCREMENT,
   `ExpirationDate` datetime DEFAULT NULL,
   `Discount` int(11) DEFAULT NULL,
+  `Description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`CouponID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `tblCoupon`
+--
+
+INSERT INTO `tblCoupon` (`CouponID`, `ExpirationDate`, `Discount`, `Description`) VALUES
+(1, '2003-03-22 00:00:00', 50, 'En compra de un cafe, el otro te sale al 50% de descuento'),
+(2, '2014-05-31 00:00:00', 30, '30% de descuento en toda tu compra');
 
 -- --------------------------------------------------------
 
@@ -512,18 +610,19 @@ CREATE TABLE IF NOT EXISTS `tblEmployee` (
   `Salary` int(11) DEFAULT NULL,
   PRIMARY KEY (`EmployeeID`,`PositionID`),
   KEY `fk_tblEmployee_tblPosition1_idx` (`PositionID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=74 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
 
 --
 -- Dumping data for table `tblEmployee`
 --
 
 INSERT INTO `tblEmployee` (`EmployeeID`, `PositionID`, `FirstName`, `LastName`, `Gender`, `Phone`, `Address`, `Email`, `Password`, `Salary`) VALUES
-(1, 1, 'Super', 'User', b'0', '1234567', 'Calle Quinta #123', 'admin@gmail.com', '12345', 100000),
+(1, 1, 'Super', 'User', b'0', '(432) 143-2143', 'Calle Quinta #123', 'admin@gmail.com', '12345', 100000),
+(81, 1, 'Quignones', 'Quignones', b'0', '(900) 900-9090', 'Av Seridores, Colonia Apache 22345', 'quignones@gmail.com', '12345', 9000000),
 (73, 2, 'Supervisor', 'Supervisor', b'0', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'supervisor@gmail.com', '12345', 2147483647),
 (72, 1, 'Cajero', 'Cajero', b'1', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'cajero@gmail.com', '12345', 2147483647),
 (71, 3, 'Gerente', 'Gerente', b'0', '(143) 143-1431', 'Calle Gerente #1234, Tijuana, B.C.', 'gerente@gmail.com', '12345', 2147483647),
-(70, 3, 'Jorge', 'Lopez', b'0', '(143) 143-1431', 'Calle Jorge #1234, Tijuana, B.C.', 'jorge@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 2147483647);
+(70, 3, 'Omar', 'Lopez', b'0', '(143) 143-1431', 'Calle Jorge #1234, Tijuana, B.C.', 'jorge@gmail.com', '12345', 2147483647);
 
 -- --------------------------------------------------------
 
@@ -666,7 +765,14 @@ CREATE TABLE IF NOT EXISTS `tblProvider` (
   `ProviderCompany` varchar(100) DEFAULT NULL,
   `ProviderEmail` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ProviderID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `tblProvider`
+--
+
+INSERT INTO `tblProvider` (`ProviderID`, `ProviderName`, `ProviderAddress`, `ProviderPhone`, `ProviderCellphone`, `ProviderCompany`, `ProviderEmail`) VALUES
+(1, 'Juan', 'calle roma', '(543) 254-3254', '5432543254325425432543254325432', 'Food Inc.', 'juan@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -698,10 +804,21 @@ INSERT INTO `tblSize` (`SizeID`, `SizeName`, `SizeVolumeML`) VALUES
 
 CREATE TABLE IF NOT EXISTS `tblStock` (
   `StockID` int(11) NOT NULL AUTO_INCREMENT,
+  `ProviderID` int(11) NOT NULL,
   `StockName` varchar(50) DEFAULT NULL,
   `QuantityAvailable` int(11) DEFAULT NULL,
+  `UnitID` int(11) NOT NULL,
   PRIMARY KEY (`StockID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `tblStock`
+--
+
+INSERT INTO `tblStock` (`StockID`, `ProviderID`, `StockName`, `QuantityAvailable`, `UnitID`) VALUES
+(1, 1, 'Vasos de cafe medianos', 100, 1),
+(2, 1, 'Vasos chicos de cafe', 300, 1),
+(5, 1, 'Cafe americano', 5000, 2);
 
 -- --------------------------------------------------------
 
@@ -749,7 +866,7 @@ CREATE TABLE IF NOT EXISTS `tblTicket` (
   `Price` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`TicketID`,`EmployeeID`),
   KEY `fk_tblTicket_tblEmployee_idx` (`EmployeeID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `tblTicket`
@@ -768,7 +885,11 @@ INSERT INTO `tblTicket` (`TicketID`, `EmployeeID`, `TicketDate`, `Price`) VALUES
 (38, 1, '2014-05-28 00:36:08', '44'),
 (39, 1, '2014-05-29 15:04:15', '74'),
 (40, 1, '2014-05-29 17:34:20', '58'),
-(41, 1, '2014-05-29 18:49:10', '74');
+(41, 1, '2014-05-29 18:49:10', '74'),
+(42, 1, '2014-05-30 11:56:14', '31'),
+(43, 1, '2014-05-30 14:53:41', '14'),
+(44, 72, '2014-05-30 21:24:43', '64'),
+(45, 1, '2014-05-30 21:38:13', '155');
 
 -- --------------------------------------------------------
 
@@ -787,7 +908,7 @@ CREATE TABLE IF NOT EXISTS `tblTicketDetail` (
   KEY `fk_tblTicketDetail_tblTicket1_idx` (`TicketID`),
   KEY `fk_tblTicketDetail_tblProduct1_idx` (`ProductID`),
   KEY `fk_tblTicketDetail_tblSize1_idx` (`SizeID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
 
 --
 -- Dumping data for table `tblTicketDetail`
@@ -844,7 +965,17 @@ INSERT INTO `tblTicketDetail` (`TicketDetailID`, `TicketID`, `ProductID`, `Produ
 (49, 40, 4, '20', 3, 1),
 (50, 40, 3, '15', 2, 2),
 (51, 41, 1, '10', 1, 1),
-(52, 41, 4, '18', 2, 3);
+(52, 41, 4, '18', 2, 3),
+(53, 42, 1, '12', 2, 1),
+(54, 42, 1, '15', 3, 1),
+(55, 43, 1, '12', 2, 1),
+(56, 44, 3, '15', 2, 3),
+(57, 44, 1, '10', 1, 1),
+(58, 45, 1, '15', 3, 1),
+(59, 45, 6, '31', 3, 1),
+(60, 45, 5, '25', 2, 2),
+(61, 45, 1, '12', 2, 1),
+(62, 45, 6, '26', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -860,6 +991,27 @@ CREATE TABLE IF NOT EXISTS `tblTicket_Coupon` (
   KEY `fk_tblTicket_Coupon_tblCoupon1_idx` (`CouponID`),
   KEY `fk_tblTicket_Coupon_tblTicket1_idx` (`TicketID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblUnit`
+--
+
+CREATE TABLE IF NOT EXISTS `tblUnit` (
+  `UnitID` int(11) NOT NULL AUTO_INCREMENT,
+  `UnitName` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`UnitID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `tblUnit`
+--
+
+INSERT INTO `tblUnit` (`UnitID`, `UnitName`) VALUES
+(1, 'Unidades'),
+(2, 'Gramos'),
+(3, 'Mililitros');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
