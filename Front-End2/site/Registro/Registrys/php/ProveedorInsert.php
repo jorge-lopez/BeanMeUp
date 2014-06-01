@@ -15,7 +15,7 @@ if(!filter_var($Email, FILTER_VALIDATE_EMAIL)){
 	$message = "Invalid email address please type a valid email.";
 }
 else{
-		include '../../db_connect.php';
+		include '../../../db_connect.php';
 		$sql = mysql_query("CALL sp_Provider('0','$NombreProveedor','$Direccion','$Telefono','$Celular','$NombreCompania','$Email');")or die(mysql_error());
 		echo "$NombreProveedor, $NombreCompania, $Email, $Telefono, $Celular, $Direccion";
 		echo "Se agrego";
