@@ -1,11 +1,11 @@
 
-function ObtenerDatos(ArchivoColumnas, ArchivoDatos){
+function ObtenerDatos(ArchivoColumnas, ArchivoDatos, URL){
 
 	$.get("php/" + ArchivoColumnas + ".php", function(data) {
 	         AgregarColumnasHTML(data);      
 	});
 	$.get("php/" + ArchivoDatos + ".php", function(data) {
-	         LlenarTabla(data);      
+	         LlenarTabla(data, URL);      
 	});
 }
 function AgregarColumnasHTML(ColumasJSON){
@@ -25,7 +25,7 @@ function AgregarColumnasHTML(ColumasJSON){
 	$("table#reporte").append(html);
 }
 
-function LlenarTabla(TuplasJSON){
+function LlenarTabla(TuplasJSON, URL){
 
 	var tuplas = $.parseJSON(TuplasJSON);
 	var Id;
@@ -43,10 +43,10 @@ function LlenarTabla(TuplasJSON){
 		}
 
 		html += '<td><ul class="button-group radius">'+
-			'<li><a href="../Registro/Registrys/RegistryEmployees.html?action=Update&Id=' + Id + '" class="button small right">' +
+			'<li><a href="../Registro/Registrys/Registry' + URL + '.html?action=Update&Id=' + Id + '" class="button small right">' +
             '<i class="fa fa-pencil-square-o"></i>'+
             '</a></li>'; 
-		html += '<li><a href="../Registro/Registrys/RegistryEmployees.html?action=Delete&Id=' + Id + '" class="button small alert right">' +
+		html += '<li><a href="../Registro/Registrys/Registry' + URL + '.html?action=Delete&Id=' + Id + '" class="button small alert right">' +
             '<i class="fa fa-trash-o"></i>'+
             '</a></li></ul></td>';   
 		html += "</tr>";

@@ -4,11 +4,13 @@
 ?>
 <html>
 <head>
+  <meta charset="utf-8"> 
   <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="../../Registro/foundation-5.2.2/css/normalize.css">
   <link rel="stylesheet" href="../../Registro/foundation-5.2.2/css/foundation.css">
   <link rel="stylesheet" href="../../Registro/Style/style.css"/>
   <link rel="stylesheet" href="../../../css/header.css"/>
+  <link rel="icon" type="image/ico" href="../../../img/Icon.ico"/>
   <title>Registro Empleados</title>
 </head>
 
@@ -16,7 +18,7 @@
      <div id='main-header' class="row" >        
          <ul>      
           <li><span>Registro de Empleados</span></li>
-          <li><a href="../../Actualizar/empleados.html">Inicio</a></li>
+          <li><a href="../../Actualizar/empleados.html">Regresar</a></li>
           <li><a href="../../Login/logout.php">Cerrar Sesion</a></li>
         </ul>  
     </div>
@@ -168,7 +170,7 @@
         </div>
         <div class="row collapse">
             <input class=" button small-6 columns" type="submit" name="ButtonEnter" value="Enter" id="ButtonEnter"/>          
-            <input class=" button alert small-6 columns " type="submit" name="ButtonCancel" value="Cancel" id="buttons"/>  
+            <a class=" button alert small-6 columns" href="../../Actualizar/empleados.html">Cancel</a>  
         </div end>
 
     </form>
@@ -180,10 +182,10 @@
 <script src="../../Registro/jquery/jquery.maskedinput.js" type="text/javascript"></script>
 <script src="../../Registro/jquery/test.js"></script>
 <script src="js/CheckButton.js"></script>
-<script src="js/LlenadoEmpleado.js"></script>
+<script src="js/LlenadoForma.js"></script>
 <script type="text/javascript">
   $(document).ready(InputEmpleado());
-  $(document).ready(LlenarCampos("<?php echo $Action ?>", "<?php echo $ID ?>"));    
+  $(document).ready(LlenarCampos("<?php echo $Action ?>", "<?php echo $ID ?>", "Empleado"));    
 </script>
 
 

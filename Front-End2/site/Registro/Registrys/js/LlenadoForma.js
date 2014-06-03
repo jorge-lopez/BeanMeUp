@@ -1,7 +1,7 @@
-function LlenarCampos(Funcion, Id){
+function LlenarCampos(Funcion, Id, Actor){
 	
 	if(Funcion != "Insert"){    		
-		$.post("php/EmpleadoGet.php", {ID : Id}, function(data) {
+		$.post("php/" + Actor + "Get.php", {ID : Id}, function(data) {
 		         LlenarForma(data);      
 		});
 	}
@@ -10,7 +10,7 @@ function LlenarForma(InfoJSON){
 	var Info = $.parseJSON(InfoJSON);
 	var Objeto = Info[0];
 
-
+	//Empleado y Campos Comunes
 	$("#Password").prop("type", "text");
 	$("#VPassword").prop("type", "text");
 		
@@ -37,4 +37,15 @@ function LlenarForma(InfoJSON){
 
 	$("#Password").val(Objeto["Password"]);	
 	$("#VPassword").val(Objeto["Password"]);
+
+	//Proveedor
+	$("#FirstName").val(Objeto["ProviderName"]);
+	$('input[name=NombreCompania]').val(Objeto["ProviderCompany"]);
+	$("#Email").val(Objeto["ProviderEmail"]);
+	$("#phone").val(Objeto["ProviderPhone"]);
+	$("#phone2").val(Objeto["ProviderCellphone"]);
+	$("#Address").val(Objeto["ProviderAddress"]);
+
+	///PROCEDURE u304295155_bnmup.sp_Coupon_ByID does not exist
+	
 }

@@ -18,6 +18,7 @@ else{
 		include '../../../db_connect.php';
 		$sql = mysql_query("CALL sp_Provider('$ID','$NombreProveedor','$Direccion','$Telefono','$Celular','$NombreCompania','$Email');")or die(mysql_error());
 		mysql_close($connection);
+		header('Location: http://' . $_SERVER['HTTP_HOST'] . '/site/Actualizar/proveedores.html');
 }
 }
 ?>

@@ -1,14 +1,14 @@
 <?php
 include '../../db_connect.php';
 
-$EmployeeSP = "call sp_Provider_List();";
-$EmployeeQuery = mysql_query($EmployeeSP);
+$CouponsSP = "call sp_Coupon_List();";
+$CouponsQuery = mysql_query($CouponsSP);
 
-while ($row = mysql_fetch_assoc($EmployeeQuery)) {
-	$Employees[] = $row;
+while ($row = mysql_fetch_assoc($CouponsQuery)) {
+	$Coupons[] = $row;
 }
 
-$EmployeesData = json_encode($Employees);
-echo $EmployeesData;
+$CouponsData = json_encode($Coupons);
+echo $CouponsData;
 mysql_close();
 ?>

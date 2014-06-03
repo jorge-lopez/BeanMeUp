@@ -2,14 +2,14 @@
 
 include '../../db_connect.php';
 
-$SelectEmployeeFieldSP = "call sp_Provider_List();";
-$SelectEmployeeFieldQuery = mysql_query($SelectEmployeeFieldSP);
+$SelectStockFieldSP = "call sp_Stock_List();";
+$SelectStockFieldQuery = mysql_query($SelectStockFieldSP);
 
-while ($FieldNames = mysql_fetch_field($SelectEmployeeFieldQuery)) {
-	$FieldNamesArray[] = $FieldNames->name;
+while ($StockFieldNames = mysql_fetch_field($SelectStockFieldQuery)) {
+	$StockFieldNamesArray[] = $StockFieldNames->name;
 }
-$FielNamesJSON = json_encode ($FieldNamesArray);
-echo $FielNamesJSON;
+$StockFieldNamesJSON = json_encode ($StockFieldNamesArray);
+echo $StockFieldNamesJSON;
 mysql_close();
 
 ?>

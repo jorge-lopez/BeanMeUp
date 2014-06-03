@@ -20,6 +20,7 @@ else{
 		echo "$NombreProveedor, $NombreCompania, $Email, $Telefono, $Celular, $Direccion";
 		echo "Se agrego";
 		mysql_close($connection);
+		header('Location: http://' . $_SERVER['HTTP_HOST'] . '/site/Actualizar/proveedores.html');
 }
 }
 ?>
