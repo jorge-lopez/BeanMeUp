@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 31, 2014 at 11:23 PM
+-- Generation Time: Jun 03, 2014 at 02:19 AM
 -- Server version: 5.1.69
 -- PHP Version: 5.2.17
 
@@ -414,6 +414,16 @@ END IF;
 
 END$$
 
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Provider_ByID`(
+IN
+p_ProviderID INT
+)
+BEGIN
+
+SELECT * FROM tblProvider WHERE ProviderID=p_ProviderID;
+
+END$$
+
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Provider_EmailVerification`(IN
 p_Email VARCHAR(100)
 )
@@ -464,6 +474,132 @@ else
 	WHERE SizeID=p_SizeID;
 
 END IF;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Stock`(IN
+p_StockID INT,
+p_ProviderID INT,
+p_StockName VARCHAR(50),
+p_QuantityAvailable INT,
+p_UnitID INT
+)
+BEGIN
+
+IF p_StockID=0 THEN
+	insert into tblStock
+		(
+			ProviderID,
+			StockName,
+			QuantityAvailable,
+			UnitID
+		)
+
+		VALUES
+		(
+			p_ProviderID,
+			p_StockName,
+			p_QuantityAvailable,
+			p_UnitID
+		);
+
+ELSE
+	update tblStock set
+		ProviderID=p_ProviderID,
+		StockName=p_StockName,
+		QuantityAvailable=p_QuantityAvailable,
+		UnitID=p_UnitID
+	WHERE StockID=p_StockID;
+
+END IF;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_StockOrder`(IN
+p_StockOrderID INT,
+p_EmployeeID INT,
+p_ProviderID INT,
+p_StockOrderCost DECIMAL
+)
+BEGIN
+
+IF p_StockOrderID=0 THEN
+	insert into tblStockOrder
+		(
+			EmployeeID,
+			ProviderID,
+			StockOrderDate,
+			StockOrderCost
+		)
+
+		VALUES
+		(
+			p_EmployeeID,
+			p_ProviderID,
+			NOW(),
+			p_StockOrderCost
+		);
+
+ELSE
+	update tblStockOrder set
+		EmployeeID=p_EmployeeID,
+		ProviderID=p_ProviderID,
+		StockOrderCost=p_StockOrderCost
+	WHERE StockOrderID=p_StockOrderID;
+
+END IF;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_StockOrderDetail`(IN
+p_StockOrderDetailID INT,
+p_StockOrderID INT,
+p_StockID INT,
+p_Quantity INT
+)
+BEGIN
+
+IF p_StockOrderDetailID=0 THEN
+	insert into tblStockOrderDetail
+		(
+			StockOrderID,
+			StockID,
+			Quantity
+		)
+
+		VALUES
+		(
+			p_StockOrderID,
+			p_StockID,
+			p_Quantity
+		);
+
+ELSE
+	update tblStockOrderDetail set
+		StockOrderID=p_StockOrderID,
+		StockID=p_StockID,
+		Quantity=p_Quantity
+	WHERE StockOrderDetailID=p_StockOrderDetailID;
+
+END IF;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Stock_ByID`(IN
+p_StockID INT
+)
+BEGIN
+
+SELECT * FROM tblStock where StockID=p_StockID;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Stock_Del`(IN
+p_StockID INT
+)
+BEGIN
+
+DELETE FROM tblStock WHERE StockID=p_StockID;
 
 END$$
 
@@ -565,6 +701,37 @@ tblTicket.Price as Total
 FROM tblTicket
 JOIN tblEmployee ON tblEmployee.EmployeeID=tblTicket.EmployeeID;
 
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Unit`(IN
+p_UnitID INT,
+p_UnitName VARCHAR(100)
+)
+BEGIN
+
+if p_UnitID=0 THEN
+insert into tblUnit (UnitName) values (p_UnitName);
+
+else 
+update tblUnit set UnitName=p_UnitName where UnitID=p_UnitID;
+
+end if;
+
+end$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Unit_ByID`(IN p_UnitID INT)
+BEGIN
+SELECT * FROM tblUnit where UnitID=p_UnitID;
+end$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Unit_Del`(IN p_UnitID INT)
+BEGIN
+DELETE FROM tblUnit where UnitID=p_UnitID;
+end$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Unit_List`()
+BEGIN
+select * from tblUnit;
 END$$
 
 DELIMITER ;
