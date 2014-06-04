@@ -24,6 +24,11 @@ function AgregarProductoHTML(drinks) {
          $('#cboxClose').remove();
       }
    });  
+   $("a#seal").colorbox({
+      href:"seal.jpg", onLoad: function() {
+         $('#cboxClose').remove();
+      }
+   });
 }
 
 function GuardarProductoEnMemoria(IdBebida, Nombre)
