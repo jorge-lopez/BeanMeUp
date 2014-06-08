@@ -1,8 +1,6 @@
 <?php
 include '../../db_connect.php';
-
-$EmployeeSP = "call sp_Provider_List();";
-$EmployeeQuery = mysql_query($EmployeeSP);
+$EmployeeQuery = mysql_query("CALL sp_Provider_List();");
 
 while ($row = mysql_fetch_assoc($EmployeeQuery)) {
 	$Employees[] = $row;

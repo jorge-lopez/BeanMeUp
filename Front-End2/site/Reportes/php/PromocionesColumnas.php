@@ -1,9 +1,7 @@
 <?php
 
 include '../../db_connect.php';
-
-$SelectCouponsFieldSP = "call sp_Coupon_List();";
-$SelectCouponsFieldQuery = mysql_query($SelectCouponsFieldSP);
+$SelectCouponsFieldQuery = mysql_query("CALL sp_Coupon_List();");
 
 while ($FieldNames = mysql_fetch_field($SelectCouponsFieldQuery)) {
 	$FieldNamesArray[] = $FieldNames->name;

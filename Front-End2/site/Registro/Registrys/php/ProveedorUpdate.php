@@ -6,6 +6,14 @@ $Email = $_POST['Email'];
 $Telefono = $_POST['Telefono'];
 $Celular = $_POST['Celular'];
 $Direccion = $_POST['Direccion'];
+$Estatus = $_POST['Estatus'];
+
+if($Estatus == "Activo"){
+	$Estatus = '0';
+}
+else if($EsActivo == "Inactivo"){
+	$EsActivo = '';
+}
 
 if( empty($_POST['NombreProveedor']) && empty($_POST['NombreCompania']) && empty($_POST['Email']) && empty($_POST['Telefono']) && empty($_POST['Celular']) && empty($_POST['Direccion'])) {
 	header('Location: RegistryProviders.html' );
@@ -16,7 +24,7 @@ if(!filter_var($Email, FILTER_VALIDATE_EMAIL)){
 }
 else{
 		include '../../../db_connect.php';
-		$sql = mysql_query("CALL sp_Provider('$ID','$NombreProveedor','$Direccion','$Telefono','$Celular','$NombreCompania','$Email');")or die(mysql_error());
+		$sql = mysql_query("CALL sp_Provider('$ID','$NombreProveedor','$Direccion','$Telefono','$Celular','$NombreCompania','$Email','$Estatus');")or die(mysql_error());
 		mysql_close($connection);
 		header('Location: http://' . $_SERVER['HTTP_HOST'] . '/site/Actualizar/proveedores.html');
 }

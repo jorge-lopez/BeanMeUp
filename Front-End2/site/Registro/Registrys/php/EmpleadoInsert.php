@@ -37,7 +37,7 @@ if(!filter_var($Email, FILTER_VALIDATE_EMAIL)){
 else{
 	if($Password == $VPassword){
 		include '../../../db_connect.php';
-		$sql = mysql_query("CALL sp_Employee('0','$Registrar','$FirstName','$LastName','$Selected_radio','$Phone','$Address','$Email','$Password','$Salary');")or die(mysql_error());
+		$sql = mysql_query("CALL sp_Employee('0','$Registrar','$FirstName','$LastName','$Selected_radio','$Phone','$Address','$Email','$Password','$Salary','0');")or die(mysql_error());
 		header('Location: http://' . $_SERVER['HTTP_HOST'] . '/site/Actualizar/empleados.html');
 		mysql_close($connection);
 	}

@@ -24,11 +24,11 @@ else if ($username == $dbEmail && $password == $dbPassword) {
 		header('Location: ../Cajero/' );
 	}
 	else if($dbPositionID == "2"){
-		$_SESSION["Login"] = "YES";
+		$_SESSION["Login"] = "Supervisor";
 		header('Location: ../Actualizar/index.html' );
 	}
 	else{
-		$_SESSION["Login"] = "YES";
+		$_SESSION["Login"] = "Gerente";
 		header('Location: ../Reportes/index.html' );
 	}
 

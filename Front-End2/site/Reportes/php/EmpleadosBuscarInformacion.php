@@ -1,7 +1,9 @@
 <?php
 include '../../db_connect.php';
 
-$EmployeeQuery = mysql_query("CALL sp_Employee_List();");
+$NombreEmpleado = $_POST['NombreEmpleado'];
+
+$EmployeeQuery = mysql_query("CALL sp_Employee_ByNames('$NombreEmpleado');");
 
 while ($row = mysql_fetch_assoc($EmployeeQuery)) {
 	$Employees[] = $row;

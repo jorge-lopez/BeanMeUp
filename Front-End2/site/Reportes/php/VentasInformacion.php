@@ -1,9 +1,7 @@
 <?php
 
 include '../../db_connect.php';
-
-$SelectTicketSP = "call sp_Ticket_List();";
-$SelectTicketQuery = mysql_query($SelectTicketSP);
+$SelectTicketQuery = mysql_query("CALL sp_Ticket_List();");
 
 while ($row = mysql_fetch_assoc($SelectTicketQuery)) {
 	$Tickets[] = $row;

@@ -1,8 +1,6 @@
 <?php
 include '../../db_connect.php';
-
-$StockSP = "call sp_Stock_List();";
-$StockQuery = mysql_query($StockSP);
+$StockQuery = mysql_query("CALL sp_Stock_List();");
 
 while ($row = mysql_fetch_assoc($StockQuery)) {
 	$Stocks[] = $row;

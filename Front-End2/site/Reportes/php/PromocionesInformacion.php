@@ -1,8 +1,6 @@
 <?php
 include '../../db_connect.php';
-
-$CouponsSP = "call sp_Coupon_List();";
-$CouponsQuery = mysql_query($CouponsSP);
+$CouponsQuery = mysql_query("CALL sp_Coupon_List();");
 
 while ($row = mysql_fetch_assoc($CouponsQuery)) {
 	$Coupons[] = $row;

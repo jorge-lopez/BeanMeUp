@@ -1,9 +1,7 @@
 <?php
 
 include '../../db_connect.php';
-
-$SelectEmployeeFieldSP = "call sp_Employee_List();";
-$SelectEmployeeFieldQuery = mysql_query($SelectEmployeeFieldSP);
+$SelectEmployeeFieldQuery = mysql_query("CALL sp_Employee_List();");
 
 while ($FieldNames = mysql_fetch_field($SelectEmployeeFieldQuery)) {
 	$FieldNamesArray[] = $FieldNames->name;

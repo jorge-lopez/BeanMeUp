@@ -1,9 +1,7 @@
 <?php
 
 include '../../db_connect.php';
-
-$SelectStockFieldSP = "call sp_Stock_List();";
-$SelectStockFieldQuery = mysql_query($SelectStockFieldSP);
+$SelectStockFieldQuery = mysql_query("CALL sp_Stock_List();");
 
 while ($StockFieldNames = mysql_fetch_field($SelectStockFieldQuery)) {
 	$StockFieldNamesArray[] = $StockFieldNames->name;
