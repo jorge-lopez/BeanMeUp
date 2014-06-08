@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="../../css/foundation.css" />    
     <link rel="stylesheet" href="../../css/header.css" />    
     <link rel="stylesheet" href="../../css/style.css" />    
+      <link rel="stylesheet" href="../../css/Vendor/foundation-datepicker.css">
+      <link rel="stylesheet" href="../../css/Vendor/colorbox.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
     <link rel="icon" type="image/ico" href="../../img/Icon.ico"/>
@@ -30,10 +32,39 @@
           <li><a href="../Login/logout.php">Cerrar Sesion</a></li>
         </ul>  
     </div>
-
     <div id="wrap">
+
+      <div class="row">
+
+        <div class="small-8 columns small-centered">
+        <form id="container">
+
+
+        <div class="row">
+          <div class="large-4 columns">        
+            <label>Fecha Inicial:
+              <input type="text" class="span2" value="" id="dpd1" name="IssueDate" data-date-format="yyyy-mm-dd"/>
+            </label>
+          </div>
+          <div class="large-4 columns">        
+            <label>Fecha Final:
+              <input type="text" class="span2" value="" id="dpd2" name="ExpirationDate" data-date-format="yyyy-mm-dd"/>
+            </label>
+          </div>
+          <div class="large-4 columns">        
+                <a onclick="ObtenerVentaFechas('VentasInformacionFecha')" class="button radius" style="margin-top: .8rem;">
+                <i class="fa fa-search"></i>
+                Buscar            
+              </a>
+          </div>
+        </form>
+      
+      </div>
+
+
+
       <div class="row text-center">
-        <div id="opciones" class="large-6 large-centered columns centered">
+        <div id="opciones" class="large-12 large-centered columns centered">
 
           <table id="reporte">          
           </table>
@@ -45,10 +76,15 @@
 
     <script src="../../js/vendor/jquery.js"></script>    
     <script src="../../js/foundation.min.js"></script>
+    <script src="../../js/vendor/jquery.colorbox-min.js"></script>
+    <script src="../../js/vendor/foundation-datepicker.js"></script>
+    <script src="../Registro/jquery/jquery.maskedinput.js" type="text/javascript"></script>
     <script src="js/scripts.js"></script>     
+    <script src="js/DatePicker.js"></script>     
     <script type="text/javascript">
       $(document).foundation();           
-      $(document).ready(ObtenerDatos("VentasColumnas", "VentasInformacion"));  
+      $(document).ready(ObtenerDatosVenta("VentasColumnas", "VentasInformacion"));  
+      $(document).ready(LoadDatePicker());
     </script>
   </body>
 </html>
