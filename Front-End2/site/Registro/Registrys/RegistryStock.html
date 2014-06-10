@@ -16,7 +16,7 @@
      <div id='main-header' class="row" >        
          <ul>      
           <li><span>Registro de Inventario</span></li>
-          <li><a href="../../Actualizar/empleados.html">Inicio</a></li>
+          <li><a href="../../Actualizar/inventario.html">Regresar</a></li>
           <li><a href="../../Login/logout.php">Cerrar Sesion</a></li>
         </ul>  
     </div>
@@ -27,19 +27,19 @@
       <input value="<?php echo $ID ?>" type="hidden" name="ID">
         <br>
       <div class="large-6 columns">
-        <div class="row collapse">
+        <div class="row">
           <label>
             Nombre de la Materia Prima
-            <input id="FirstName" type="text"  placeholder="Leche de Cabra" name="MateriaPrima">
+            <input id="StockName" type="text"  placeholder="Leche de Cabra" name="StockName">
           </label>        
         </div>
       </div>
 
       <div class="large-6 columns">
-        <div class="row collapse">
+        <div class="row">
           <label>
             Unidad
-             <select id="Unidad" name="Unidad">
+             <select id="Unidad" name="UnitID">
             </select>
           </label>
 
@@ -64,9 +64,8 @@
 <script src="js/LlenadoForma.js"></script>
 <script type="text/javascript">
   $(document).ready(InputEmpleado());
-  $(document).ready(LlenarCampos("<?php echo $Action ?>", "<?php echo $ID ?>", "Stock"));
+  $(document).ready(LlenarCampos("<?php echo $Action ?>", "<?php echo $ID ?>", "Inventario"));
   $(document).ready(LlenarUnidades());    
-
 </script>
 
 

@@ -55,3 +55,18 @@ function LlenarTabla(TuplasJSON, URL){
 	$("table#reporte").append(html);
 }
 
+function Busqueda(Actor, URL){
+	
+	var qry = $("input#query").val();
+
+	$.ajax({
+		type: "POST",
+		url: "php/" + Actor + "BuscarInformacion.php",
+		data: { NombreEmpleado : qry},
+		success: function(data) {
+			$("tbody").remove();
+        	LlenarTabla(data, URL); 	        
+		}
+	});
+
+}

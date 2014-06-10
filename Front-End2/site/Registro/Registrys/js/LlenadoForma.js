@@ -29,6 +29,11 @@ function LlenarForma(InfoJSON, Actor){
 		else
 			$("#Female").prop("checked", true);
 
+		if(Objeto["Active"] == "Active")
+			$("#Active").prop("checked", true);
+		else
+			$("#Inactive").prop("checked", true);
+
 		if(Objeto["PositionID"] == "1")
 			$("#Cajero").prop("checked", true);
 		else if(Objeto["PositionID"] == "2")
@@ -53,13 +58,22 @@ function LlenarForma(InfoJSON, Actor){
         break;
 
 	case "Promociones":
-		//Promociones
+		
 		$("#descuento").val(Objeto["Discount"]);
 		$('input[name=Description]').val(Objeto["Description"]);
 		
 		var fechaRAW = Objeto["ExpirationDate"].split("-");
 		var fecha = fechaRAW[2] + "/" + fechaRAW[1] + "/" + fechaRAW[0];
 		$('input[name=ExpirationDate]').val(Objeto["ExpirationDate"]);
+
+	case "Inventario":
+		$("#StockName").val(Objeto["StockName"]);
+		 setTimeout(function (){
+            var sel = document.getElementById('Unidad');
+			sel.selectedIndex = Objeto["UnitID"];
+         }, 500); 
+		
+
 
     default:
         break;
@@ -128,6 +142,7 @@ function AutocompleteOrdenStock(input){
 	         $(consumiblesJSON).each(function(){
 	         	nombres.push(this.Consumible);	         	
 	         });
+
 
 		$(".Consumible").autocomplete({
 			source: nombres

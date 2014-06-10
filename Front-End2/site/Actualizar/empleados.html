@@ -25,12 +25,28 @@
     </div>
 
     <div id="wrap">
-      <div class="row text-center">
-        <div id="opciones" class="large-12 columns">
+      <div class="row">
+        <div class="large-6 columns">        
+          <label>Nombre/Apellido:
+            <input type="text" id="query" name="NombrePoveedor" oninput="Busqueda('Empleados', 'Employees')"/>
+          </label>
+        </div>
+        <div class="large-2 columns">        
+              <a onclick="Busqueda('Empleados', 'Employees')" class="button small radius" style="margin-top: 1rem;">
+              <i class="fa fa-search"></i>
+              Buscar            
+            </a>
+        </div>
+        <div class="large-3 columns" style="margin-top: 1rem;">        
           <a href="../Registro/Registrys/RegistryEmployees.html?action=Insert" class="button radius success right">
-            <i class="fa fa-plus-square-o fa-lg"></i>
-            Crear Empleados            
-          </a>
+              <i class="fa fa-plus-square-o fa-lg"></i>
+              Crear Empleados            
+            </a>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <div id="opciones" class="large-12 columns">          
           <table id="reporte">                      
           </table>
         </div>
