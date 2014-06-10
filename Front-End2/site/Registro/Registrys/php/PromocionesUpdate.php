@@ -7,7 +7,6 @@ $Discount = $_POST['Discount'];
 $Description = $_POST['Description'];
 
 	$sql = mysql_query("CALL sp_Coupon('$ID','$IssueDate','$ExpirationDate','$Discount','$Description')");
-	//$sql = mysql_query("CALL sp_Coupon('$ID','$ExpirationDate','$Discount','$Description')")or die(mysql_error());
 	mysql_close();
 	header('Location: http://' . $_SERVER['HTTP_HOST'] . '/site/Actualizar/promociones.html');
 

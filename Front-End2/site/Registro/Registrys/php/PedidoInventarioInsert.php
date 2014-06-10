@@ -4,10 +4,8 @@ session_start();
 $dbEmployeeID = $_SESSION["EmployeeID"];
 $ProviderID = $_POST['ProviderID'];
 $StockOrderCost = $_POST['StockOrderCost'];
-$StockID = $_POST['StockID'];
-$Quantity = $_POST['Quantity'];
 
-if( empty(empty($_POST['StockOrderCost'])) {
+if(empty($_SESSION["EmployeeID"]) || empty($_POST['ProviderID']) || empty($_POST['StockOrderCost'])) {
 	header('Location: RegistryProviders.html' );
 }
 else{

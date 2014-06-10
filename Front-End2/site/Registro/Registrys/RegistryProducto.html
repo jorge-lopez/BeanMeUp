@@ -9,14 +9,14 @@
   <link rel="stylesheet" href="../../Registro/Style/style.css"/>
   <link rel="stylesheet" href="../../../css/header.css"/>
   <link rel="icon" type="image/ico" href="../../../img/Icon.ico"/>
-  <title>Registro Inventario</title>
+  <title>Registro Productos</title>
 </head>
 
 <body>
      <div id='main-header' class="row" >        
          <ul>      
-          <li><span>Registro de Inventario</span></li>
-          <li><a href="../../Actualizar/empleados.html">Inicio</a></li>
+          <li><span>Registro de Productos</span></li>
+          <li><a href="../../Actualizar/index.html">Inicio</a></li>
           <li><a href="../../Login/logout.php">Cerrar Sesion</a></li>
         </ul>  
     </div>
@@ -29,8 +29,8 @@
       <div class="large-6 columns">
         <div class="row collapse">
           <label>
-            Nombre de la Materia Prima
-            <input id="FirstName" type="text"  placeholder="Leche de Cabra" name="MateriaPrima">
+            Nombre del Producto
+            <input id="FirstName" type="text"  placeholder="Cafe Espresso" name="ProductName">
           </label>        
         </div>
       </div>
@@ -38,14 +38,21 @@
       <div class="large-6 columns">
         <div class="row collapse">
           <label>
-            Unidad
-             <select id="Unidad" name="Unidad">
+            Categoria del Producto
+             <select id="Categoria" name="Categoria">
             </select>
           </label>
-
-
         </div>
       </div>
+
+
+      <div class="large-6 columns">
+        <div class="row collapse">
+          <label for="file">Subir Imagen:</label>
+          <input type="file" name="file" id="file"><br>
+        </div>
+      </div>
+
 
         <div class="row collapse">
             <input class=" button small-6 columns" type="submit" name="ButtonEnter" value="Enter" id="ButtonEnter"/>          
