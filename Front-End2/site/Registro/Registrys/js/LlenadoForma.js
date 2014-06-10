@@ -65,3 +65,100 @@ function LlenarForma(InfoJSON, Actor){
         break;
     }
 }
+
+function LlenarUnidades(){
+	
+	$.get("php/InventarioLoadUnidades.php",  function(data) {
+		         var unidadesJSON = $.parseJSON(data);
+		         $(unidadesJSON).each(function() {
+		         	$("#Unidad").append('<option value="' + this.UnitID + '">' + this.UnitName + '</option>');
+		         });
+		});
+}
+function LlenarProveedores(){
+	
+	$.get("php/ProveedorLoadNombres.php",  function(data) {
+		         var unidadesJSON = $.parseJSON(data);
+		         $(unidadesJSON).each(function() {
+		         	$("#Proveedor").append('<option value="' + this.ID + '">' + this.Compa\u00f1ia + '|' + this.Nombre + '</option>');
+		         });
+		});
+}
+
+function AgregarConsumible(){
+	var html = '<div class="row">' +
+         '<div class="large-6 columns">' +
+         '<input type="hidden" class="id" name="ID">'+
+         
+             '<label>Materia Prima' +
+               '<input type="text" class="Consumible" name="Consumible" onclick="AutocompleteOrdenStock(this)"  onblur="AutocompleteUnidades(this)">' +
+             '</label>' +
+
+         '</div>' +
+         '<div class="large-3 columns">' +
+
+             '<label>Unidad' +                
+               '<input type="text" value="" class="unidad" disabled>' +
+             '</label>' +
+          
+         '</div>' +
+         '<div class="large-3 columns">' +
+
+             '<label>Agregar Consumible' +                
+               '<a class="tiny button radius success" onclick="AgregarConsumible()" >' +
+                 '<i class="fa fa-plus-square-o fa-lg"></i>' +
+               '</a>&nbsp;' +
+               '<a class="tiny button radius alert" onclick="EliminarConsumible(this)">' +
+                 '<i class="fa fa-minus-square-o fa-lg"</i>' +
+               '</a>' +
+             '</label>' +
+          
+         '</div>' +
+       '</div>';
+
+    $("#lista-Consumibles").append(html);
+}
+function AutocompleteOrdenStock(input){
+
+	var qry = input.value;
+
+	$.post("php/ConsumiblesBuscarInformacion.php", {NombreConsumible : qry}, function(data) {
+		var consumiblesJSON = $.parseJSON(data);		
+		var nombres = [];
+	         $(consumiblesJSON).each(function(){
+	         	nombres.push(this.Consumible);	         	
+	         });
+
+		$(".Consumible").autocomplete({
+			source: nombres
+		})
+		$('.ui-autocomplete').addClass('f-dropdown');
+	});
+}
+function AutocompleteUnidades(inputElement){
+	
+	var qry = inputElement.value;
+	$.post("php/ConsumiblesBuscarInformacion.php", {NombreConsumible : qry}, function(data) {
+		var consumiblesJSON = $.parseJSON(data);		
+		var unidades = [];
+		var ids = [];		
+	         $(consumiblesJSON).each(function(){
+	         	unidades.push(this.Unidad);
+	         	ids.push(this.ID);
+	         });
+
+		var parent = $(inputElement).closest("div.row");
+		var childrenU = $(parent[0]).find("input.unidad");		
+		var childrenI = $(parent[0]).find("input.id");
+
+		childrenU[0].value = unidades[0];
+		childrenI[0].value = ids[0];
+	});
+}
+
+function EliminarConsumible(inputElement){
+
+	var parent = $(inputElement).closest("div.row");
+	parent[0].parentNode.removeChild(parent[0]);
+
+}
