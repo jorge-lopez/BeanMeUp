@@ -12,7 +12,7 @@ if($Estatus == "Activo"){
 	$Estatus = '0';
 }
 else if($EsActivo == "Inactivo"){
-	$EsActivo = '';
+	$EsActivo = '1';
 }
 
 if( empty($_POST['NombreProveedor']) || empty($_POST['NombreCompania']) || empty($_POST['Email']) || empty($_POST['Telefono']) || empty($_POST['Celular']) || empty($_POST['Direccion'])) {

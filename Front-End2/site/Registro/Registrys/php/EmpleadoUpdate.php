@@ -34,7 +34,7 @@ if($Estatus == 'Activo'){
 
 }
 else if($Estatus == 'Inactivo'){
-	$Estatus = '';
+	$Estatus = '1';
 }
 if( empty($_POST['FName']) && empty($_POST['LName']) && empty($_POST['Telephone']) && empty($_POST['Email']) && empty($_POST['Address']) && empty($_POST['Password']) && empty($_POST['VPassword']) && empty($_POST['Gender']) && empty($_POST['Salary']) && empty($_POST['Registro'])) {
 	header('Location: RegistryEmployees.html' );
