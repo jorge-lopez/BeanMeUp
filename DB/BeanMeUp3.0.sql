@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 03, 2014 at 02:19 AM
+-- Generation Time: Jun 10, 2014 at 01:16 AM
 -- Server version: 5.1.69
 -- PHP Version: 5.2.17
 
@@ -27,7 +27,8 @@ DELIMITER $$
 --
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Coupon`(IN
 p_CouponID INT,
-p_ExpirationDate datetime,
+p_DateCreated DATE,
+p_ExpirationDate DATE,
 p_Discount int,
 p_Description varchar(500)
 )
@@ -35,6 +36,7 @@ BEGIN
 
 IF p_CouponID=0 THEN
 INSERT INTO tblCoupon (
+DateCreated,
 ExpirationDate,
 Discount,
 Description
@@ -42,6 +44,7 @@ Description
 
 VALUES
 (
+p_DateCreated,
 p_ExpirationDate,
 p_Discount,
 p_Description
@@ -50,6 +53,7 @@ p_Description
 ELSE
 UPDATE tblCoupon
 SET
+DateCreated=p_DateCreated,
 ExpirationDate=p_ExpirationDate,
 Discount=p_Discount,
 Description=p_Description
@@ -60,14 +64,36 @@ end if;
 
 end$$
 
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Coupon_ByID`(IN
+p_CouponID INT
+
+)
+BEGIN
+
+SELECT * FROM tblCoupon WHERE CouponID=p_CouponID;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Coupon_Del`(IN
+p_CouponID INT
+)
+BEGIN
+
+DELETE FROM tblCoupon where CouponID=p_CouponID;
+
+END$$
+
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Coupon_List`()
 BEGIN
 
 SELECT
 
+
+
 tblCoupon.CouponID as "ID",
-tblCoupon.ExpirationDate as "Expiracion",
-tblCoupon.Discount as "Descuento",
+DATE_FORMAT(tblCoupon.DateCreated,'%d %b %Y') as "Inicio",
+DATE_FORMAT(tblCoupon.ExpirationDate,'%d %b %Y') as "Expiracion",
+CONCAT(tblCoupon.Discount,'%') as "Descuento",
 tblCoupon.Description as "Descripcion"
 
 FROM tblCoupon;
@@ -93,7 +119,8 @@ p_Phone varchar(50),
 p_Address VARCHAR(200),
 p_Email VARCHAR(100),
 p_Password VARCHAR(100),
-p_Salary INT
+p_Salary INT,
+p_Active BIT
 )
 BEGIN
 
@@ -109,7 +136,8 @@ IF p_EmployeeID=0 then
 	Address,
 	Email,
 	Password,
-	Salary
+	Salary,
+        Active
 	)
 	VALUES
 	(
@@ -121,8 +149,9 @@ IF p_EmployeeID=0 then
 	p_Address,
 	p_Email,
 	p_Password,
-	p_Salary
-	);
+	p_Salary,
+        0
+        );
 else
 	UPDATE tblEmployee set
 	PositionID=p_PositionID,
@@ -132,7 +161,8 @@ else
 	Phone=p_Phone,
 	Address=p_Address,
 	Email=p_Email,
-	Salary=p_Salary
+	Salary=p_Salary,
+        Active=p_Active
         
 	WHERE EmployeeID=p_EmployeeID;
         
@@ -159,9 +189,35 @@ tblEmployee.LastName,
 tblEmployee.Phone,
 tblEmployee.Address,
 tblEmployee.Email,
-tblEmployee.Salary
+tblEmployee.Salary,
+(case when tblEmployee.Active=0 then "Active" else "Innactive" end) as Active
 
  FROM tblEmployee WHERE EmployeeID=p_EmployeeID;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Employee_ByNames`(IN
+p_Search VARCHAR(100)
+)
+BEGIN
+
+SELECT
+
+tblEmployee.EmployeeID as ID,
+tblPosition.PositionName as Posicion,
+tblEmployee.FirstName as Nombres,
+tblEmployee.LastName as Apellidos,
+(case when tblEmployee.Gender=0 then "Masculino" else "Femenino" end) as Sexo,
+tblEmployee.Phone as Telefono,
+tblEmployee.Address as Direccion,
+tblEmployee.Email as Correo,
+CONCAT('$', FORMAT(tblEmployee.Salary, 2)) as Salario,
+(case when tblEmployee.Active=0 then "Activo" else "Inactivo" end) as Estado
+
+FROM tblEmployee 
+JOIN tblPosition ON tblEmployee.PositionID=tblPosition.PositionID
+WHERE tblEmployee.FirstName LIKE CONCAT('%', p_Search, '%') OR tblEmployee.LastName LIKE CONCAT('%', p_Search, '%')
+ORDER BY tblEmployee.Active;
 
 END$$
 
@@ -183,14 +239,16 @@ tblEmployee.EmployeeID as ID,
 tblPosition.PositionName as Posicion,
 tblEmployee.FirstName as Nombres,
 tblEmployee.LastName as Apellidos,
-(case when tblEmployee.Gender=0 then "Male" else "Female" end) as Sexo,
+(case when tblEmployee.Gender=0 then "Masculino" else "Femenino" end) as Sexo,
 tblEmployee.Phone as Telefono,
 tblEmployee.Address as Direccion,
 tblEmployee.Email as Correo,
-tblEmployee.Salary as Salario
+CONCAT('$', FORMAT(tblEmployee.Salary, 2)) as Salario,
+(case when tblEmployee.Active=0 then "Activo" else "Inactivo" end) as Estado
 
 FROM tblEmployee
-JOIN tblPosition ON tblEmployee.PositionID=tblPosition.PositionID;
+JOIN tblPosition ON tblEmployee.PositionID=tblPosition.PositionID
+ORDER BY tblEmployee.Active,tblEmployee.LastName;
 
 END$$
 
@@ -377,7 +435,8 @@ p_ProviderAddress VARCHAR(300),
 p_ProviderPhone varchar(50),
 p_ProviderCellphone varchar(50),
 p_ProviderCompany VARCHAR(100),
-p_ProviderEmail varchar(100)
+p_ProviderEmail varchar(100),
+p_Active BIT
 )
 BEGIN
 IF p_ProviderID=0 then
@@ -388,7 +447,8 @@ IF p_ProviderID=0 then
 	ProviderPhone,
 	ProviderCellphone,
 	ProviderCompany,
-	ProviderEmail
+	ProviderEmail,
+        Active
 	)
 	VALUES
 	(
@@ -397,7 +457,8 @@ IF p_ProviderID=0 then
 	p_ProviderPhone,
 	p_ProviderCellphone,
 	p_ProviderCompany,
-	p_ProviderEmail
+	p_ProviderEmail,
+        0
 	);
 else
 	UPDATE tblProvider set
@@ -406,7 +467,8 @@ else
 	ProviderPhone=p_ProviderPhone,
 	ProviderCellphone=p_ProviderCellphone,
 	ProviderCompany=p_ProviderCompany,
-	ProviderEmail=p_ProviderEmail
+	ProviderEmail=p_ProviderEmail,
+        Active=p_Active
 
 	WHERE ProviderID=p_ProviderID;
 
@@ -421,6 +483,35 @@ p_ProviderID INT
 BEGIN
 
 SELECT * FROM tblProvider WHERE ProviderID=p_ProviderID;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Provider_ByNames`( IN
+p_Search VARCHAR(100)
+)
+BEGIN
+
+	SELECT
+
+	ProviderID as ID,
+	ProviderName as Nombre,
+	ProviderAddress as Direccion,
+	ProviderPhone as Telefono,
+	ProviderCellphone as Celular,
+	ProviderCompany as Compañia,
+	ProviderEmail as Email,
+        (case when tblProvider.Active=0 then "Activo" else "Inactivo" end) as Estado
+
+	FROM tblProvider WHERE ProviderName LIKE CONCAT('%', p_Search, '%') OR ProviderCompany LIKE CONCAT('%', p_Search, '%') ORDER BY Active, ProviderCompany;
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Provider_Del`(
+IN
+p_ProviderID INT
+)
+BEGIN
+
+DELETE FROM tblProvider WHERE ProviderID=p_ProviderID;
 
 END$$
 
@@ -444,9 +535,10 @@ BEGIN
 	ProviderPhone as Telefono,
 	ProviderCellphone as Celular,
 	ProviderCompany as Compañia,
-	ProviderEmail as Email
+	ProviderEmail as Email,
+    (case when tblProvider.Active=0 then "Activo" else "Inactivo" end) as Estado
 
-	FROM tblProvider;
+	FROM tblProvider ORDER BY Active, ProviderCompany;
 END$$
 
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Size`(IN
@@ -624,7 +716,7 @@ end$$
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Ticket`(IN
 p_TicketID INT,
 p_EmployeeID INT,
-p_Price DECIMAL
+p_Price DECIMAL (10,2)
 )
 BEGIN
 
@@ -638,7 +730,7 @@ IF p_TicketID=0 THEN
     	VALUES
     	(
     	p_EmployeeID,
-    	NOW(),
+    	DATE_SUB(NOW(),INTERVAL 3 HOUR),
     	p_Price
     	);
 ELSE
@@ -689,19 +781,59 @@ END IF;
 
 END$$
 
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_TicketDetail_ByTicketID`(IN
+p_TicketID INT)
+BEGIN
+
+SELECT
+
+tblProduct.ProductName as Nombre,
+tblSize.SizeName as Tamano,
+tblTicketDetail.Quantity as Cantidad,
+tblTicketDetail.ProductPrice as Precio,
+(tblTicketDetail.Quantity*tblTicketDetail.ProductPrice) as Total
+
+FROM tblTicketDetail
+JOIN tblProduct on tblTicketDetail.ProductID=tblProduct.ProductID
+JOIN tblSize on tblTicketDetail.SizeID=tblSize.SizeID
+WHERE tblTicketDetail.TicketID=p_TicketID;
+
+END$$
+
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Ticket_List`()
 BEGIN 
 
 SELECT
 
-tblTicket.TicketDate as Fecha,
+tblTicket.TicketID as ID,
+DATE_FORMAT(tblTicket.TicketDate,'%b %d %Y %h:%i %p') as Fecha,
 tblEmployee.FirstName as Empleado,
-tblTicket.Price as Total
+CONCAT('$', FORMAT((tblTicket.Price*0.16), 2)) as IVA,
+CONCAT('$', FORMAT(tblTicket.Price, 2)) as Total
 
 FROM tblTicket
-JOIN tblEmployee ON tblEmployee.EmployeeID=tblTicket.EmployeeID;
+JOIN tblEmployee ON tblEmployee.EmployeeID=tblTicket.EmployeeID
+ORDER BY TicketID DESC;
 
 END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Ticket_List_ByDate`(IN
+p_StartDate DATE,
+p_EndDate DATE)
+BEGIN 
+
+SELECT
+
+tblTicket.TicketID as ID,
+tblTicket.TicketDate as Fecha,
+tblEmployee.FirstName as Empleado,
+CONCAT('$', FORMAT((tblTicket.Price*0.16), 2)) as IVA,
+CONCAT('$', FORMAT(tblTicket.Price, 2)) as Total
+
+FROM tblTicket 
+JOIN tblEmployee ON tblEmployee.EmployeeID=tblTicket.EmployeeID
+WHERE tblTicket.TicketDate BETWEEN p_StartDate AND p_EndDate;
+end$$
 
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Unit`(IN
 p_UnitID INT,
@@ -744,19 +876,20 @@ DELIMITER ;
 
 CREATE TABLE IF NOT EXISTS `tblCoupon` (
   `CouponID` int(11) NOT NULL AUTO_INCREMENT,
-  `ExpirationDate` datetime DEFAULT NULL,
+  `DateCreated` date NOT NULL,
+  `ExpirationDate` date DEFAULT NULL,
   `Discount` int(11) DEFAULT NULL,
   `Description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`CouponID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `tblCoupon`
 --
 
-INSERT INTO `tblCoupon` (`CouponID`, `ExpirationDate`, `Discount`, `Description`) VALUES
-(1, '2003-03-22 00:00:00', 50, 'En compra de un cafe, el otro te sale al 50% de descuento'),
-(2, '2014-05-31 00:00:00', 30, '30% de descuento en toda tu compra');
+INSERT INTO `tblCoupon` (`CouponID`, `DateCreated`, `ExpirationDate`, `Discount`, `Description`) VALUES
+(7, '2014-06-09', '2014-06-13', 25, 'Descuento en todo'),
+(2, '2014-06-09', '2014-06-14', 25, 'Descuentos!');
 
 -- --------------------------------------------------------
 
@@ -775,21 +908,23 @@ CREATE TABLE IF NOT EXISTS `tblEmployee` (
   `Email` varchar(100) DEFAULT NULL,
   `Password` varchar(100) DEFAULT NULL,
   `Salary` int(11) DEFAULT NULL,
+  `Active` bit(1) NOT NULL,
   PRIMARY KEY (`EmployeeID`,`PositionID`),
   KEY `fk_tblEmployee_tblPosition1_idx` (`PositionID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=83 ;
 
 --
 -- Dumping data for table `tblEmployee`
 --
 
-INSERT INTO `tblEmployee` (`EmployeeID`, `PositionID`, `FirstName`, `LastName`, `Gender`, `Phone`, `Address`, `Email`, `Password`, `Salary`) VALUES
-(1, 1, 'Super', 'User', b'0', '(432) 143-2143', 'Calle Quinta #123', 'admin@gmail.com', '12345', 100000),
-(81, 1, 'Quignones', 'Quignones', b'0', '(900) 900-9090', 'Av Seridores, Colonia Apache 22345', 'quignones@gmail.com', '12345', 9000000),
-(73, 2, 'Supervisor', 'Supervisor', b'0', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'supervisor@gmail.com', '12345', 2147483647),
-(72, 1, 'Cajero', 'Cajero', b'1', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'cajero@gmail.com', '12345', 2147483647),
-(71, 3, 'Gerente', 'Gerente', b'0', '(143) 143-1431', 'Calle Gerente #1234, Tijuana, B.C.', 'gerente@gmail.com', '12345', 2147483647),
-(70, 3, 'Omar', 'Lopez', b'0', '(143) 143-1431', 'Calle Jorge #1234, Tijuana, B.C.', 'jorge@gmail.com', '12345', 2147483647);
+INSERT INTO `tblEmployee` (`EmployeeID`, `PositionID`, `FirstName`, `LastName`, `Gender`, `Phone`, `Address`, `Email`, `Password`, `Salary`, `Active`) VALUES
+(1, 1, 'Super', 'User', b'0', '(432) 143-2143', 'Calle 8 #718', 'admin@gmail.com', '12345', 100000, b'0'),
+(82, 3, 'Martin', 'Toledo Dude', b'0', '(123) 456-4556', 'Calle Dude #123', 'martin@gmail.com', '12345', 4234214, b'1'),
+(81, 1, 'Quignones', 'Quignones', b'0', '(900) 900-9090', 'Av Seridores, Colonia Apache 22345', 'quignones@gmail.com', '12345', 9000000, b'0'),
+(73, 2, 'Supervisor', 'Supervisor', b'0', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'supervisor@gmail.com', '12345', 2147483647, b'0'),
+(72, 1, 'Cajero', 'Cajero', b'1', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'cajero@gmail.com', '12345', 2147483647, b'0'),
+(71, 3, 'Gerente', 'Gerente', b'0', '(143) 143-1431', 'Calle Gerente #1234, Tijuana, B.C.', 'gerente@gmail.com', '12345', 2147483647, b'0'),
+(70, 3, 'Omar', 'Lopez', b'0', '(143) 143-1431', 'Calle Jorge #1234, Tijuana, B.C.', 'jorge@gmail.com', '12345', 2147483647, b'0');
 
 -- --------------------------------------------------------
 
@@ -931,15 +1066,17 @@ CREATE TABLE IF NOT EXISTS `tblProvider` (
   `ProviderCellphone` varchar(50) DEFAULT NULL,
   `ProviderCompany` varchar(100) DEFAULT NULL,
   `ProviderEmail` varchar(100) DEFAULT NULL,
+  `Active` bit(1) NOT NULL,
   PRIMARY KEY (`ProviderID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `tblProvider`
 --
 
-INSERT INTO `tblProvider` (`ProviderID`, `ProviderName`, `ProviderAddress`, `ProviderPhone`, `ProviderCellphone`, `ProviderCompany`, `ProviderEmail`) VALUES
-(1, 'Juan', 'calle roma', '(543) 254-3254', '5432543254325425432543254325432', 'Food Inc.', 'juan@gmail.com');
+INSERT INTO `tblProvider` (`ProviderID`, `ProviderName`, `ProviderAddress`, `ProviderPhone`, `ProviderCellphone`, `ProviderCompany`, `ProviderEmail`, `Active`) VALUES
+(1, 'Juan Cortez', 'calle roma', '(231) 231-2233', '(664) 354-1231', 'Food Inc.', 'juan@gmail.com', b'0'),
+(3, 'Ivan Sanchez', 'Winterfell, Dracarys 2543 Tijuana B.C.', '(664) 737-3898', '(664) 123-1231', 'Huevos BC', 'huevo@gmail.com', b'0');
 
 -- --------------------------------------------------------
 
@@ -1030,33 +1167,70 @@ CREATE TABLE IF NOT EXISTS `tblTicket` (
   `TicketID` int(11) NOT NULL AUTO_INCREMENT,
   `EmployeeID` int(11) NOT NULL,
   `TicketDate` datetime DEFAULT NULL,
-  `Price` decimal(10,0) DEFAULT NULL,
+  `Price` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`TicketID`,`EmployeeID`),
-  KEY `fk_tblTicket_tblEmployee_idx` (`EmployeeID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
+  KEY `fk_tblTicket_tblEmployee_idx` (`EmployeeID`),
+  KEY `Price` (`Price`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
 
 --
 -- Dumping data for table `tblTicket`
 --
 
 INSERT INTO `tblTicket` (`TicketID`, `EmployeeID`, `TicketDate`, `Price`) VALUES
-(29, 1, '2014-05-26 00:41:04', '100'),
-(30, 4, '2014-05-26 17:21:31', '100'),
-(31, 1, '2014-05-26 18:31:04', '66'),
-(32, 1, '2014-05-26 18:34:02', '51'),
-(33, 1, '2014-05-26 19:33:06', '71'),
-(34, 1, '2014-05-26 21:24:56', '94'),
-(35, 1, '2014-05-27 20:42:14', '89'),
-(36, 1, '2014-05-27 20:44:21', '89'),
-(37, 1, '2014-05-28 00:36:02', '96'),
-(38, 1, '2014-05-28 00:36:08', '44'),
-(39, 1, '2014-05-29 15:04:15', '74'),
-(40, 1, '2014-05-29 17:34:20', '58'),
-(41, 1, '2014-05-29 18:49:10', '74'),
-(42, 1, '2014-05-30 11:56:14', '31'),
-(43, 1, '2014-05-30 14:53:41', '14'),
-(44, 72, '2014-05-30 21:24:43', '64'),
-(45, 1, '2014-05-30 21:38:13', '155');
+(29, 1, '2014-05-25 21:41:04', '100.00'),
+(30, 4, '2014-05-26 14:21:31', '100.00'),
+(31, 1, '2014-05-26 15:31:04', '66.00'),
+(32, 1, '2014-05-26 15:34:02', '51.00'),
+(33, 1, '2014-05-26 16:33:06', '71.00'),
+(34, 1, '2014-05-26 18:24:56', '94.00'),
+(35, 1, '2014-05-27 17:42:14', '89.00'),
+(36, 1, '2014-05-27 17:44:21', '89.00'),
+(37, 1, '2014-05-27 21:36:02', '96.00'),
+(38, 1, '2014-05-27 21:36:08', '44.00'),
+(39, 1, '2014-05-29 12:04:15', '74.00'),
+(40, 1, '2014-05-29 14:34:20', '58.00'),
+(41, 1, '2014-05-29 15:49:10', '74.00'),
+(42, 1, '2014-05-30 08:56:14', '31.00'),
+(43, 1, '2014-05-30 11:53:41', '14.00'),
+(44, 72, '2014-05-30 18:24:43', '64.00'),
+(45, 1, '2014-05-30 18:38:13', '155.00'),
+(46, 72, '2014-06-03 16:47:42', '79.00'),
+(47, 1, '2014-06-03 17:08:01', '21.00'),
+(48, 1, '2014-06-03 17:33:29', '35.00'),
+(49, 1, '2014-06-03 17:34:33', '17.00'),
+(50, 72, '2014-06-03 18:41:49', '23.00'),
+(51, 1, '2014-06-04 15:36:54', '0.00'),
+(52, 1, '2014-06-04 15:42:47', '12.00'),
+(53, 72, '2014-06-04 15:53:24', '77.00'),
+(54, 72, '2014-06-04 15:54:11', '35.00'),
+(55, 72, '2014-06-04 16:17:10', '79.00'),
+(56, 72, '2014-06-04 16:17:40', '135.00'),
+(57, 72, '2014-06-04 16:18:23', '23.00'),
+(58, 1, '2014-06-04 16:20:03', '108.00'),
+(59, 1, '2014-06-04 23:04:20', '108.00'),
+(60, 1, '2014-06-05 16:28:57', '35.00'),
+(61, 1, '2014-06-06 11:45:32', '151.00'),
+(62, 1, '2014-06-07 21:55:17', '111.00'),
+(63, 1, '2014-06-07 21:55:18', '35.00'),
+(64, 1, '2014-06-07 21:56:47', '128.00'),
+(65, 1, '2014-06-07 22:03:25', '31.00'),
+(66, 1, '2014-06-08 02:01:46', '0.00'),
+(67, 1, '2014-06-08 02:02:29', '21.00'),
+(68, 1, '2014-06-08 02:10:22', '98.60'),
+(69, 1, '2014-06-08 02:16:33', '32.48'),
+(70, 1, '2014-06-08 02:19:18', '85.84'),
+(71, 1, '2014-06-08 02:19:48', '53.36'),
+(72, 1, '2014-06-08 02:19:56', '40.60'),
+(73, 1, '2014-06-08 02:49:20', '71.92'),
+(74, 72, '2014-06-09 11:18:26', '52.20'),
+(75, 1, '2014-06-09 12:52:36', '0.00'),
+(76, 1, '2014-06-09 12:58:57', '0.00'),
+(77, 1, '2014-06-09 12:59:17', '0.00'),
+(78, 1, '2014-06-09 12:59:24', '0.00'),
+(79, 1, '2014-06-09 13:01:17', '0.00'),
+(80, 1, '2014-06-09 13:01:27', '0.00'),
+(81, 1, '2014-06-09 16:18:28', '155.44');
 
 -- --------------------------------------------------------
 
@@ -1075,7 +1249,7 @@ CREATE TABLE IF NOT EXISTS `tblTicketDetail` (
   KEY `fk_tblTicketDetail_tblTicket1_idx` (`TicketID`),
   KEY `fk_tblTicketDetail_tblProduct1_idx` (`ProductID`),
   KEY `fk_tblTicketDetail_tblSize1_idx` (`SizeID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=133 ;
 
 --
 -- Dumping data for table `tblTicketDetail`
@@ -1142,7 +1316,77 @@ INSERT INTO `tblTicketDetail` (`TicketDetailID`, `TicketID`, `ProductID`, `Produ
 (59, 45, 6, '31', 3, 1),
 (60, 45, 5, '25', 2, 2),
 (61, 45, 1, '12', 2, 1),
-(62, 45, 6, '26', 1, 1);
+(62, 45, 6, '26', 1, 1),
+(63, 46, 2, '18', 2, 1),
+(64, 46, 4, '20', 3, 1),
+(65, 46, 3, '15', 2, 2),
+(66, 47, 4, '18', 2, 1),
+(67, 48, 3, '15', 2, 2),
+(68, 49, 1, '15', 3, 1),
+(69, 50, 2, '20', 3, 1),
+(70, 52, 1, '10', 1, 1),
+(71, 53, 1, '15', 3, 1),
+(72, 53, 2, '20', 3, 1),
+(73, 53, 6, '31', 3, 1),
+(74, 54, 1, '15', 3, 1),
+(75, 54, 3, '15', 2, 1),
+(76, 55, 4, '20', 3, 1),
+(77, 55, 6, '31', 3, 1),
+(78, 55, 3, '17', 3, 1),
+(79, 56, 1, '12', 2, 1),
+(80, 56, 4, '18', 2, 1),
+(81, 56, 6, '29', 2, 1),
+(82, 56, 6, '31', 3, 1),
+(83, 56, 6, '26', 1, 1),
+(84, 57, 2, '20', 3, 1),
+(85, 58, 1, '15', 3, 1),
+(86, 58, 5, '22', 1, 1),
+(87, 58, 5, '28', 3, 2),
+(88, 59, 6, '31', 3, 1),
+(89, 59, 4, '18', 2, 1),
+(90, 59, 3, '17', 3, 2),
+(91, 59, 1, '10', 1, 1),
+(92, 60, 1, '15', 3, 1),
+(93, 60, 3, '15', 2, 1),
+(94, 61, 4, '18', 2, 1),
+(95, 61, 2, '20', 3, 1),
+(96, 61, 6, '31', 3, 1),
+(97, 61, 6, '26', 1, 1),
+(98, 61, 4, '20', 3, 1),
+(99, 61, 3, '15', 2, 1),
+(100, 62, 4, '20', 3, 1),
+(101, 62, 3, '17', 3, 1),
+(102, 62, 2, '18', 2, 1),
+(103, 62, 1, '12', 2, 1),
+(104, 62, 6, '29', 2, 1),
+(105, 63, 1, '10', 1, 3),
+(106, 64, 1, '10', 1, 3),
+(107, 64, 4, '18', 2, 1),
+(108, 64, 6, '31', 3, 2),
+(109, 65, 1, '12', 2, 1),
+(110, 65, 3, '15', 2, 1),
+(111, 67, 2, '18', 2, 1),
+(112, 68, 2, '20', 3, 1),
+(113, 68, 4, '18', 2, 2),
+(114, 68, 6, '29', 2, 1),
+(115, 69, 1, '10', 1, 1),
+(116, 69, 2, '18', 2, 1),
+(117, 70, 4, '18', 2, 1),
+(118, 70, 3, '15', 2, 1),
+(119, 70, 6, '29', 2, 1),
+(120, 70, 6, '26', 1, 1),
+(121, 71, 2, '20', 3, 1),
+(122, 71, 6, '26', 1, 1),
+(123, 72, 4, '20', 3, 1),
+(124, 72, 3, '15', 2, 1),
+(125, 73, 3, '15', 2, 1),
+(126, 73, 4, '16', 1, 1),
+(127, 73, 6, '31', 3, 1),
+(128, 74, 3, '15', 2, 1),
+(129, 74, 2, '18', 2, 1),
+(130, 74, 2, '15', 1, 1),
+(131, 81, 4, '18', 2, 1),
+(132, 81, 6, '29', 2, 4);
 
 -- --------------------------------------------------------
 
