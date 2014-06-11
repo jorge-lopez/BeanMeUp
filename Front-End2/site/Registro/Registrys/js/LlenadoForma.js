@@ -70,7 +70,7 @@ function LlenarForma(InfoJSON, Actor){
 		$("#StockName").val(Objeto["StockName"]);
 		 setTimeout(function (){
             var sel = document.getElementById('Unidad');
-			sel.selectedIndex = Objeto["UnitID"];
+			sel.selectedIndex = Objeto["UnitID"] - 1;
          }, 500); 
 		
 
