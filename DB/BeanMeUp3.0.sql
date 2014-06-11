@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 10, 2014 at 01:16 AM
+-- Generation Time: Jun 10, 2014 at 11:55 PM
 -- Server version: 5.1.69
 -- PHP Version: 5.2.17
 
@@ -351,6 +351,47 @@ SELECT * FROM tblProduct WHERE ProductCategoryID=p_ProductCategoryID;
 
 END$$
 
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Product_ByID`(
+IN
+p_ProductID INT)
+BEGIN
+
+SELECT * FROM tblProduct where ProductID=p_ProductID;
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Product_ByNames`(IN
+p_ProductName VARCHAR(100))
+BEGIN
+
+SELECT
+
+tblProduct.ProductID as ID,
+tblProductCategory.CategoryName as Categoria,
+tblProduct.ProductName as Producto,
+tblProduct.ProductPicture as Foto
+
+FROM tblProduct
+JOIN tblProductCategory on tblProduct.ProductCategoryID=tblProductCategory.ProductCategoryID
+WHERE tblProduct.ProductName LIKE CONCAT('%', p_Search, '%');
+
+END$$
+
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Product_List`()
+BEGIN
+
+SELECT
+
+tblProduct.ProductID as ID,
+tblProductCategory.CategoryName as Categoria,
+tblProduct.ProductName as Producto,
+tblProduct.ProductPicture as Foto
+
+FROM tblProduct
+JOIN tblProductCategory on tblProduct.ProductCategoryID=tblProductCategory.ProductCategoryID;
+
+END$$
+
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Product_Price`(IN
 p_Product_PriceID INT,
 p_ProductID INT,
@@ -571,7 +612,6 @@ END$$
 
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Stock`(IN
 p_StockID INT,
-p_ProviderID INT,
 p_StockName VARCHAR(50),
 p_QuantityAvailable INT,
 p_UnitID INT
@@ -581,7 +621,6 @@ BEGIN
 IF p_StockID=0 THEN
 	insert into tblStock
 		(
-			ProviderID,
 			StockName,
 			QuantityAvailable,
 			UnitID
@@ -589,15 +628,13 @@ IF p_StockID=0 THEN
 
 		VALUES
 		(
-			p_ProviderID,
 			p_StockName,
-			p_QuantityAvailable,
+			0,
 			p_UnitID
 		);
 
 ELSE
 	update tblStock set
-		ProviderID=p_ProviderID,
 		StockName=p_StockName,
 		QuantityAvailable=p_QuantityAvailable,
 		UnitID=p_UnitID
@@ -686,6 +723,25 @@ SELECT * FROM tblStock where StockID=p_StockID;
 
 END$$
 
+CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Stock_ByNames`(IN
+p_StockName VARCHAR(100)
+)
+BEGIN
+
+SELECT
+
+tblStock.StockID as "ID",
+tblStock.StockName as "Consumible",
+tblStock.QuantityAvailable as "Disponible",
+tblUnit.UnitName as "Unidad"
+
+FROM tblStock
+
+JOIN tblUnit on tblUnit.UnitID=tblStock.UnitID
+WHERE tblStock.StockName LIKE CONCAT('%', p_StockName , '%');
+
+end$$
+
 CREATE DEFINER=`u304295155_hdcde`@`localhost` PROCEDURE `sp_Stock_Del`(IN
 p_StockID INT
 )
@@ -701,14 +757,12 @@ BEGIN
 SELECT
 
 tblStock.StockID as "ID",
-tblProvider.ProviderCompany as "Compañia",
 tblStock.StockName as "Consumible",
 tblStock.QuantityAvailable as "Disponible",
 tblUnit.UnitName as "Unidad"
 
-FROM tblStock
 
-JOIN tblProvider on tblStock.ProviderID=tblProvider.ProviderID
+FROM tblStock
 JOIN tblUnit on tblUnit.UnitID=tblStock.UnitID;
 
 end$$
@@ -918,11 +972,11 @@ CREATE TABLE IF NOT EXISTS `tblEmployee` (
 --
 
 INSERT INTO `tblEmployee` (`EmployeeID`, `PositionID`, `FirstName`, `LastName`, `Gender`, `Phone`, `Address`, `Email`, `Password`, `Salary`, `Active`) VALUES
-(1, 1, 'Super', 'User', b'0', '(432) 143-2143', 'Calle 8 #718', 'admin@gmail.com', '12345', 100000, b'0'),
-(82, 3, 'Martin', 'Toledo Dude', b'0', '(123) 456-4556', 'Calle Dude #123', 'martin@gmail.com', '12345', 4234214, b'1'),
-(81, 1, 'Quignones', 'Quignones', b'0', '(900) 900-9090', 'Av Seridores, Colonia Apache 22345', 'quignones@gmail.com', '12345', 9000000, b'0'),
+(1, 1, 'Super', 'User', b'0', '(432) 143-2143', 'Calle 8 #720', 'admin@gmail.com', '12345', 100000, b'0'),
+(82, 3, 'Martin', 'Toledo Dude', b'0', '(123) 456-4556', 'Calle Dude #123', 'martin@gmail.com', '12345', 4234214, b'0'),
+(81, 1, 'Quignones', 'Quignones', b'0', '(900) 900-9090', 'Av Seridores, Colonia Apache 22346', 'quignones@gmail.com', '12345', 9000000, b'0'),
 (73, 2, 'Supervisor', 'Supervisor', b'0', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'supervisor@gmail.com', '12345', 2147483647, b'0'),
-(72, 1, 'Cajero', 'Cajero', b'1', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'cajero@gmail.com', '12345', 2147483647, b'0'),
+(72, 1, 'Cajero', 'Cajero', b'0', '(143) 143-1431', 'Calle Cajero #1234, Tijuana, B.C.', 'cajero@gmail.com', '12345', 2147483647, b'0'),
 (71, 3, 'Gerente', 'Gerente', b'0', '(143) 143-1431', 'Calle Gerente #1234, Tijuana, B.C.', 'gerente@gmail.com', '12345', 2147483647, b'0'),
 (70, 3, 'Omar', 'Lopez', b'0', '(143) 143-1431', 'Calle Jorge #1234, Tijuana, B.C.', 'jorge@gmail.com', '12345', 2147483647, b'0');
 
@@ -1108,21 +1162,22 @@ INSERT INTO `tblSize` (`SizeID`, `SizeName`, `SizeVolumeML`) VALUES
 
 CREATE TABLE IF NOT EXISTS `tblStock` (
   `StockID` int(11) NOT NULL AUTO_INCREMENT,
-  `ProviderID` int(11) NOT NULL,
   `StockName` varchar(50) DEFAULT NULL,
   `QuantityAvailable` int(11) DEFAULT NULL,
   `UnitID` int(11) NOT NULL,
   PRIMARY KEY (`StockID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `tblStock`
 --
 
-INSERT INTO `tblStock` (`StockID`, `ProviderID`, `StockName`, `QuantityAvailable`, `UnitID`) VALUES
-(1, 1, 'Vasos de cafe medianos', 100, 1),
-(2, 1, 'Vasos chicos de cafe', 300, 1),
-(5, 1, 'Cafe americano', 5000, 2);
+INSERT INTO `tblStock` (`StockID`, `StockName`, `QuantityAvailable`, `UnitID`) VALUES
+(1, 'Vasos de cafe medianos', 100, 1),
+(2, 'Vasos chicos de cafe', 300, 1),
+(5, 'Cafe americano', 5000, 2),
+(9, 'Canela en Polvo', 0, 2),
+(8, 'Leche Soya', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -1171,7 +1226,7 @@ CREATE TABLE IF NOT EXISTS `tblTicket` (
   PRIMARY KEY (`TicketID`,`EmployeeID`),
   KEY `fk_tblTicket_tblEmployee_idx` (`EmployeeID`),
   KEY `Price` (`Price`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=112 ;
 
 --
 -- Dumping data for table `tblTicket`
@@ -1230,7 +1285,37 @@ INSERT INTO `tblTicket` (`TicketID`, `EmployeeID`, `TicketDate`, `Price`) VALUES
 (78, 1, '2014-06-09 12:59:24', '0.00'),
 (79, 1, '2014-06-09 13:01:17', '0.00'),
 (80, 1, '2014-06-09 13:01:27', '0.00'),
-(81, 1, '2014-06-09 16:18:28', '155.44');
+(81, 1, '2014-06-09 16:18:28', '155.44'),
+(82, 1, '2014-06-10 12:38:34', '0.00'),
+(83, 1, '2014-06-10 13:48:31', '38.28'),
+(84, 1, '2014-06-10 13:53:41', '17.40'),
+(85, 1, '2014-06-10 13:58:07', '20.88'),
+(86, 1, '2014-06-10 13:58:08', '20.88'),
+(87, 1, '2014-06-10 13:58:23', '20.88'),
+(88, 1, '2014-06-10 13:59:00', '17.40'),
+(89, 1, '2014-06-10 13:59:42', '17.40'),
+(90, 1, '2014-06-10 14:03:01', '17.40'),
+(91, 1, '2014-06-10 14:03:13', '17.40'),
+(92, 72, '2014-06-10 15:52:53', '124.12'),
+(93, 72, '2014-06-10 15:53:09', '70.76'),
+(94, 1, '2014-06-10 16:14:47', '17.40'),
+(95, 1, '2014-06-10 16:15:30', '0.00'),
+(96, 1, '2014-06-10 16:41:30', '20.88'),
+(97, 1, '2014-06-10 16:42:08', '17.40'),
+(98, 1, '2014-06-10 16:42:33', '20.88'),
+(99, 1, '2014-06-10 16:44:49', '20.88'),
+(100, 1, '2014-06-10 16:45:55', '20.88'),
+(101, 1, '2014-06-10 16:46:03', '17.40'),
+(102, 1, '2014-06-10 16:49:04', '17.40'),
+(103, 1, '2014-06-10 16:50:53', '20.88'),
+(104, 1, '2014-06-10 16:54:20', '17.40'),
+(105, 1, '2014-06-10 16:56:05', '20.88'),
+(106, 1, '2014-06-10 19:01:37', '20.88'),
+(107, 1, '2014-06-10 19:01:39', '20.88'),
+(108, 1, '2014-06-10 19:01:40', '20.88'),
+(109, 0, '2014-06-10 19:42:01', '20.88'),
+(110, 72, '2014-06-10 20:09:50', '37.12'),
+(111, 72, '2014-06-10 20:11:40', '13.92');
 
 -- --------------------------------------------------------
 
@@ -1249,7 +1334,7 @@ CREATE TABLE IF NOT EXISTS `tblTicketDetail` (
   KEY `fk_tblTicketDetail_tblTicket1_idx` (`TicketID`),
   KEY `fk_tblTicketDetail_tblProduct1_idx` (`ProductID`),
   KEY `fk_tblTicketDetail_tblSize1_idx` (`SizeID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=133 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=168 ;
 
 --
 -- Dumping data for table `tblTicketDetail`
@@ -1386,7 +1471,42 @@ INSERT INTO `tblTicketDetail` (`TicketDetailID`, `TicketID`, `ProductID`, `Produ
 (129, 74, 2, '18', 2, 1),
 (130, 74, 2, '15', 1, 1),
 (131, 81, 4, '18', 2, 1),
-(132, 81, 6, '29', 2, 4);
+(132, 81, 6, '29', 2, 4),
+(133, 83, 3, '15', 2, 1),
+(134, 83, 4, '18', 2, 1),
+(135, 84, 3, '15', 2, 1),
+(136, 85, 2, '18', 2, 1),
+(137, 86, 2, '18', 2, 1),
+(138, 87, 2, '18', 2, 1),
+(139, 88, 3, '15', 2, 1),
+(140, 89, 3, '15', 2, 1),
+(141, 90, 3, '15', 2, 1),
+(142, 91, 3, '15', 2, 1),
+(143, 92, 6, '26', 1, 1),
+(144, 92, 5, '25', 2, 1),
+(145, 92, 5, '22', 1, 2),
+(146, 92, 1, '12', 2, 1),
+(147, 93, 3, '15', 2, 1),
+(148, 93, 2, '15', 1, 1),
+(149, 93, 6, '31', 3, 1),
+(150, 94, 3, '15', 2, 1),
+(151, 96, 4, '18', 2, 1),
+(152, 97, 3, '15', 2, 1),
+(153, 98, 4, '18', 2, 1),
+(154, 99, 2, '18', 2, 1),
+(155, 100, 2, '18', 2, 1),
+(156, 101, 3, '15', 2, 1),
+(157, 102, 3, '15', 2, 1),
+(158, 103, 4, '18', 2, 1),
+(159, 104, 3, '15', 2, 1),
+(160, 105, 2, '18', 2, 1),
+(161, 106, 2, '18', 2, 1),
+(162, 107, 2, '18', 2, 1),
+(163, 108, 2, '18', 2, 1),
+(164, 109, 4, '18', 2, 1),
+(165, 110, 1, '12', 2, 1),
+(166, 110, 4, '20', 3, 1),
+(167, 111, 1, '12', 2, 1);
 
 -- --------------------------------------------------------
 
