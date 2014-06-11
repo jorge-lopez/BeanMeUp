@@ -6,13 +6,13 @@ $Email = $_POST['Email'];
 $Telefono = $_POST['Telefono'];
 $Celular = $_POST['Celular'];
 $Direccion = $_POST['Direccion'];
-$Estatus = $_POST['Estatus'];
+$Estatus = $_POST['Active'];
 
-if($Estatus == "Activo"){
-	$Estatus = '0';
+if($Estatus == 'Inactive'){
+	$Estatus = '1';
 }
-else if($EsActivo == "Inactivo"){
-	$EsActivo = '1';
+else if($Estatus == 'Active'){
+	$Estatus = '';
 }
 
 if( empty($_POST['NombreProveedor']) || empty($_POST['NombreCompania']) || empty($_POST['Email']) || empty($_POST['Telefono']) || empty($_POST['Celular']) || empty($_POST['Direccion'])) {

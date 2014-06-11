@@ -10,7 +10,7 @@ $VPassword = $_POST['VPassword'];
 $Selected_radio = $_POST['Gender'];
 $Salary = $_POST['Salary'];
 $Registrar = $_POST['Registrar'];
-$Estatus = $_POST['Estatus'];
+$Estatus = $_POST['Active'];
 
 if($Selected_radio == 'Male'){
 	$Selected_radio = '';
@@ -29,12 +29,11 @@ else{
 	$Registrar = '3';
 }
 
-if($Estatus == 'Activo'){
-	$Estatus = '0';
-
-}
-else if($Estatus == 'Inactivo'){
+if($Estatus == 'Inactive'){
 	$Estatus = '1';
+}
+else if($Estatus == 'Active'){
+	$Estatus = '';
 }
 if( empty($_POST['FName']) && empty($_POST['LName']) && empty($_POST['Telephone']) && empty($_POST['Email']) && empty($_POST['Address']) && empty($_POST['Password']) && empty($_POST['VPassword']) && empty($_POST['Gender']) && empty($_POST['Salary']) && empty($_POST['Registro'])) {
 	header('Location: RegistryEmployees.html' );
@@ -48,6 +47,7 @@ else{
 		include '../../../db_connect.php';
 		$sql = mysql_query("CALL sp_Employee('$ID','$Registrar','$FirstName','$LastName','$Selected_radio','$Phone','$Address','$Email','$Password','$Salary','$Estatus');")or die(mysql_error());
 		mysql_close($connection);
+		header('Location: http://' . $_SERVER['HTTP_HOST'] . '/site/Actualizar/empleados.html');
 	}
 	else{
 		header('Location: RegistryEmployees.html' );
